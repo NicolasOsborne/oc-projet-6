@@ -35,44 +35,136 @@ function showProjects(projects) {
 
 showProjects(projects)
 
-// Filtrer les projets
-// Cibler les différents boutons de filtres
-const filterAllProjects = document.querySelector('.filters-all')
-const filterObjets = document.querySelector('.filters-objets')
-const filterAppartements = document.querySelector('.filters-appartements')
+// Filtrer les projets en ayant ajouté les bouton en HTML
+
+// Cibler les différents boutons de filtres dans le DOM
+const filterAllProjects = document.querySelector('#filters-all')
+const filterObjets = document.querySelector('#filters-objets')
+const filterAppartements = document.querySelector('#filters-appartements')
 const filterHotelsAndRestaurants = document.querySelector(
-  '.filters-hotels-restaurants'
+  '#filters-hotels-restaurants'
 )
 
-// Afficher tous les projets
+// Filtrer tous les projets
 filterAllProjects.addEventListener('click', () => {
   document.querySelector('.gallery').innerHTML = ''
   showProjects(projects)
 })
 
-// Afficher les projets "Objets"
+// Filtrer les projets "Objets"
 filterObjets.addEventListener('click', () => {
   const projectsObjets = projects.filter(function (project) {
-    return project.category.id === 1
+    return project.categoryId === 1
   })
   document.querySelector('.gallery').innerHTML = ''
   showProjects(projectsObjets)
 })
 
-// Afficher les projets "Appartements"
+// Filtrer les projets "Appartements"
 filterAppartements.addEventListener('click', () => {
   const projectsAppartements = projects.filter(function (project) {
-    return project.category.id === 2
+    return project.categoryId === 2
   })
   document.querySelector('.gallery').innerHTML = ''
   showProjects(projectsAppartements)
 })
 
-// Afficher les projets "Hôtels & Restaurants"
+// Filtrer les projets "Hôtels & Restaurants"
 filterHotelsAndRestaurants.addEventListener('click', () => {
   const projectsHotelsAndRestaurants = projects.filter(function (project) {
-    return project.category.id === 3
+    return project.categoryId === 3
   })
   document.querySelector('.gallery').innerHTML = ''
   showProjects(projectsHotelsAndRestaurants)
 })
+
+// Gestion des couleurs des boutons selon s'ils sont sélectionnés ou non
+const filtersButtons = document.querySelectorAll('button')
+for (let index = 0; index < filtersButtons.length; index++) {
+  filtersButtons[index].onclick = function () {
+    let selectedButton = document.querySelectorAll('.button-selected')[0]
+    if (this.className == 'button-unselected') {
+      if (selectedButton) selectedButton.className = 'button-unselected'
+      this.className = 'button-selected'
+    }
+  }
+}
+
+/*
+// Ajout des boutons de façon dynamique via l'API
+
+// Récupération des catégories depuis le fichier JSON de l'API
+const reponseCategories = await fetch(`http://localhost:5678/api/categories`)
+const categories = await reponseCategories.json()
+
+// Générer les boutons
+
+const filters = document.querySelector('.filters')
+function showFilters(categories) {
+  // Bouton "Tous"
+  let buttonFilterAll = document.createElement('button')
+  buttonFilterAll.innerText = 'Tous'
+  buttonFilterAll.setAttribute('id', 'filter-all')
+  buttonFilterAll.classList.add('button-selected')
+  filters.appendChild(buttonFilterAll)
+  // Autres boutons
+  for (let j = 0; j < categories.length; j++) {
+    let filterButton = document.createElement('button')
+    filterButton.innerText = categories[j].name
+    filterButton.setAttribute('id', `filter-${categories[j].id}`)
+    filterButton.classList.add('button-unselected')
+    filters.appendChild(filterButton)
+  }
+}
+showFilters(categories)
+
+// Filtrer les projets par catégorie
+// Filtrer tous les projets
+const filterAllProjects = document.querySelector('#filter-all')
+filterAllProjects.addEventListener('click', () => {
+  document.querySelector('.gallery').innerHTML = ''
+  showProjects(projects)
+})
+
+// Filtrer les projets "Objets"
+const filterObjets = document.querySelector('#filter-1')
+filterObjets.addEventListener('click', () => {
+  const projectsObjets = projects.filter(function (project) {
+    return project.categoryId === 1
+  })
+  document.querySelector('.gallery').innerHTML = ''
+  showProjects(projectsObjets)
+})
+
+// Filtrer les projets "Appartements"
+const filterAppartements = document.querySelector('#filter-2')
+filterAppartements.addEventListener('click', () => {
+  const projectsAppartements = projects.filter(function (project) {
+    return project.categoryId === 2
+  })
+  document.querySelector('.gallery').innerHTML = ''
+  showProjects(projectsAppartements)
+})
+
+// Filtrer les projets "Hôtels & restaurants"
+const filterHotelsAndRestaurants = document.querySelector('#filter-3')
+filterHotelsAndRestaurants.addEventListener('click', () => {
+  const projectsHotelsAndRestaurants = projects.filter(function (project) {
+    return project.categoryId === 3
+  })
+  document.querySelector('.gallery').innerHTML = ''
+  showProjects(projectsHotelsAndRestaurants)
+})
+
+// Gestion des couleurs des boutons selon s'ils sont sélectionnés ou non
+const filtersButtons = document.querySelectorAll('button')
+for (let index = 0; index < filtersButtons.length; index++) {
+  filtersButtons[index].onclick = function () {
+    let selectedButton = document.querySelectorAll('.button-selected')[0]
+    if (this.className == 'button-unselected') {
+      if (selectedButton) selectedButton.className = 'button-unselected'
+      this.className = 'button-selected'
+    }
+  }
+}
+*/
