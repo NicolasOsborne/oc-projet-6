@@ -1,8 +1,8 @@
 // Récupérer les projets éventuellement stockés dans le localStorage
 
 // Récupération des projets depuis le fichier JSON de l'API
-const reponse = await fetch(`http://localhost:5678/api/works`)
-const projects = await reponse.json()
+const responseProjects = await fetch(`http://localhost:5678/api/works`)
+const projects = await responseProjects.json()
 
 // Générer les projets sur la page web
 function showProjects(projects) {
@@ -40,8 +40,8 @@ showProjects(projects)
 // Ajout des boutons de façon dynamique via l'API
 
 // Récupération des catégories depuis le fichier JSON de l'API
-const reponseCategories = await fetch(`http://localhost:5678/api/categories`)
-const categories = await reponseCategories.json()
+const responseCategories = await fetch(`http://localhost:5678/api/categories`)
+const categories = await responseCategories.json()
 
 // Générer les boutons
 
@@ -64,110 +64,40 @@ function showFilters(categories) {
 }
 showFilters(categories)
 
+// Filtrer les projets
+
+// Changer la couleur des boutons de filtres selon s'ils sont sélectionnés ou non
+function updateButtonColor(e) {
+  const previousButton = document.querySelector('.button-selected')
+  previousButton.classList.remove('button-selected')
+  previousButton.classList.add('button-unselected')
+  e.target.classList.remove('button-unselected')
+  e.target.classList.add('button-selected')
+}
+
+// Montrer tous les projets
+const filterAllProjects = document.querySelector('#filter-all')
+filterAllProjects.addEventListener('click', (e) => {
+  document.querySelector('.gallery').innerHTML = ''
+  showProjects(projects)
+  // Changer la couleur du bouton
+  updateButtonColor(e)
+})
+
 // Filtrer les projets par catégorie
+for (let index = 0; index < categories.length; index++) {
+  const filterProjects = document.querySelector(
+    `#filter-${categories[index].id}`
+  )
+  filterProjects.addEventListener('click', (e) => {
+    const projectsFiltered = projects.filter(function (project) {
+      return project.categoryId === index + 1
+    })
 
-// Filtrer tous les projets
-const filterAllProjects = document.querySelector('#filter-all')
-filterAllProjects.addEventListener('click', () => {
-  document.querySelector('.gallery').innerHTML = ''
-  showProjects(projects)
-})
+    document.querySelector('.gallery').innerHTML = ''
+    showProjects(projectsFiltered)
 
-// Filtrer les projets "Objets"
-const filterObjets = document.querySelector('#filter-1')
-filterObjets.addEventListener('click', () => {
-  const projectsObjets = projects.filter(function (project) {
-    return project.categoryId === 1
+    // Changer la couleur des boutons de filtres selon s'ils sont sélectionnés ou non
+    updateButtonColor(e)
   })
-  document.querySelector('.gallery').innerHTML = ''
-  showProjects(projectsObjets)
-})
-
-// Filtrer les projets "Appartements"
-const filterAppartements = document.querySelector('#filter-2')
-filterAppartements.addEventListener('click', () => {
-  const projectsAppartements = projects.filter(function (project) {
-    return project.categoryId === 2
-  })
-  document.querySelector('.gallery').innerHTML = ''
-  showProjects(projectsAppartements)
-})
-
-// Filtrer les projets "Hôtels & restaurants"
-const filterHotelsAndRestaurants = document.querySelector('#filter-3')
-filterHotelsAndRestaurants.addEventListener('click', () => {
-  const projectsHotelsAndRestaurants = projects.filter(function (project) {
-    return project.categoryId === 3
-  })
-  document.querySelector('.gallery').innerHTML = ''
-  showProjects(projectsHotelsAndRestaurants)
-})
-
-// Gestion des couleurs des boutons selon s'ils sont sélectionnés ou non
-const filtersButtons = document.querySelectorAll('.filters button')
-for (let index = 0; index < filtersButtons.length; index++) {
-  filtersButtons[index].onclick = function () {
-    let selectedButton = document.querySelectorAll('.button-selected')[0]
-    if (this.className == 'button-unselected') {
-      if (selectedButton) selectedButton.className = 'button-unselected'
-      this.className = 'button-selected'
-    }
-  }
 }
-
-/*
-// Filtrer les projets en ayant ajouté les bouton en HTML (non-dynamique)
-
-// Cibler les différents boutons de filtres dans le DOM
-const filterAllProjects = document.querySelector('#filter-all')
-const filterObjets = document.querySelector('#filter-objets')
-const filterAppartements = document.querySelector('#filter-appartements')
-const filterHotelsAndRestaurants = document.querySelector(
-  '#filter-hotels-restaurants'
-)
-
-// Filtrer tous les projets
-filterAllProjects.addEventListener('click', () => {
-  document.querySelector('.gallery').innerHTML = ''
-  showProjects(projects)
-})
-
-// Filtrer les projets "Objets"
-filterObjets.addEventListener('click', () => {
-  const projectsObjets = projects.filter(function (project) {
-    return project.categoryId === 1
-  })
-  document.querySelector('.gallery').innerHTML = ''
-  showProjects(projectsObjets)
-})
-
-// Filtrer les projets "Appartements"
-filterAppartements.addEventListener('click', () => {
-  const projectsAppartements = projects.filter(function (project) {
-    return project.categoryId === 2
-  })
-  document.querySelector('.gallery').innerHTML = ''
-  showProjects(projectsAppartements)
-})
-
-// Filtrer les projets "Hôtels & Restaurants"
-filterHotelsAndRestaurants.addEventListener('click', () => {
-  const projectsHotelsAndRestaurants = projects.filter(function (project) {
-    return project.categoryId === 3
-  })
-  document.querySelector('.gallery').innerHTML = ''
-  showProjects(projectsHotelsAndRestaurants)
-})
-
-// Gestion des couleurs des boutons selon s'ils sont sélectionnés ou non
-const filtersButtons = document.querySelectorAll('.filters button')
-for (let index = 0; index < filtersButtons.length; index++) {
-  filtersButtons[index].onclick = function () {
-    let selectedButton = document.querySelectorAll('.button-selected')[0]
-    if (this.className == 'button-unselected') {
-      if (selectedButton) selectedButton.className = 'button-unselected'
-      this.className = 'button-selected'
-    }
-  }
-}
-*/

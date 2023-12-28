@@ -27,16 +27,16 @@ loginForm.addEventListener('submit', async (event) => {
   }
 
   // Envoi de la demande de connexion à l'API
-  const response = await fetch('http://localhost:5678/api/users/login', {
+  const responseLogin = await fetch('http://localhost:5678/api/users/login', {
     method: 'POST',
     headers: { accept: 'application/json', 'Content-Type': 'application/json' },
     body: JSON.stringify(loginUser),
   })
 
-  const userAuthentification = await response.json()
+  const userAuthentification = await responseLogin.json()
 
   // Si e-mail & mot de passe corrects (200 - Connected)
-  if (response.status === 200) {
+  if (responseLogin.status === 200) {
     // Stocker le token d'authentification
     localStorage.setItem('token', userAuthentification.token)
     // Redirection vers la page d'accueil
@@ -44,17 +44,17 @@ loginForm.addEventListener('submit', async (event) => {
   }
 
   // Si l'e-mail est incorrect (404 - User not found)
-  else if (response.status === 404) {
+  else if (responseLogin.status === 404) {
     // Message d'erreur
     loginError.innerText = 'Identifiant incorrect'
   }
 
   // Si le mot de passe est incorrect (401 - Not authorized)
-  else if (response.status === 401) {
+  else if (responseLogin.status === 401) {
     // Message d'erreur
     loginError.innerText = 'Mot de passe incorrect'
   }
-  // En cas d'autre erreur
+  // Dans le cas d'une autre erreur
   else {
     loginError.innerText = "Erreur d'authentification. Veuillez réessayer"
   }
