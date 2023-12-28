@@ -184,6 +184,9 @@ nav a {
   text-decoration: none;
   color: inherit;
 }
+nav img {
+  height: 22px;
+}
 
 #introduction {
   display: flex;
@@ -218,6 +221,7 @@ nav a {
   justify-content: center;
   gap: 10px;
   margin-bottom: 3em;
+  flex-wrap: wrap;
 }
 
 .filters button {
@@ -324,6 +328,10 @@ input[type='submit'] {
 #login a {
   margin: auto;
   color: #3d3d3d;
+}
+#login p {
+  margin: 2em auto 0 auto;
+  color: red;
 }
 
 footer nav ul {
