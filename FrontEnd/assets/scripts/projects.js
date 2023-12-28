@@ -53,6 +53,7 @@ function showFilters(categories) {
   buttonFilterAll.setAttribute('id', 'filter-all')
   buttonFilterAll.classList.add('button-selected')
   filters.appendChild(buttonFilterAll)
+
   // Autres boutons
   for (let j = 0; j < categories.length; j++) {
     let filterButton = document.createElement('button')
@@ -62,15 +63,16 @@ function showFilters(categories) {
     filters.appendChild(filterButton)
   }
 }
+
 showFilters(categories)
 
 // Filtrer les projets
 
 // Changer la couleur des boutons de filtres selon s'ils sont sélectionnés ou non
 function updateButtonColor(e) {
-  const previousButton = document.querySelector('.button-selected')
-  previousButton.classList.remove('button-selected')
-  previousButton.classList.add('button-unselected')
+  const previouslySelectedButton = document.querySelector('.button-selected')
+  previouslySelectedButton.classList.remove('button-selected')
+  previouslySelectedButton.classList.add('button-unselected')
   e.target.classList.remove('button-unselected')
   e.target.classList.add('button-selected')
 }
@@ -86,10 +88,10 @@ filterAllProjects.addEventListener('click', (e) => {
 
 // Filtrer les projets par catégorie
 for (let index = 0; index < categories.length; index++) {
-  const filterProjects = document.querySelector(
+  const filterProjectsByCategory = document.querySelector(
     `#filter-${categories[index].id}`
   )
-  filterProjects.addEventListener('click', (e) => {
+  filterProjectsByCategory.addEventListener('click', (e) => {
     const projectsFiltered = projects.filter(function (project) {
       return project.categoryId === index + 1
     })
