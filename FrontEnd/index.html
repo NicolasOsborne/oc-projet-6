@@ -12,9 +12,20 @@
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
 	<script type="module" src="./assets/scripts/projects.js"></script>
+	<script type="module" src="./assets/scripts/modale.js"></script>
+	<script src="https://kit.fontawesome.com/094ae6d327.js" crossorigin="anonymous"></script>
+
 </head>
 
 <body>
+
+	<!-- Bannière "Mode édition" après connexion -->
+	<div class="edit-mode-banner">
+		<i class="fa-regular fa-pen-to-square"></i>
+		<p>Mode édition</p>
+	</div>
+	<!-- -->
+
 	<header>
 		<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 		<nav>
@@ -44,12 +55,19 @@
 			</article>
 		</section>
 		<section id="portfolio">
-			<h2>Mes Projets</h2>
-			<div class="filters">
+			<div class="portfolio-title">
+				<h2>Mes Projets</h2>
+				<button class="portfolio-edit-button">
+					<i class="fa-regular fa-pen-to-square"></i>
+					modifier
+				</button>
+			</div>
 
+			<div class="filters">
+				<!-- Boutons de filtres des projets par catégories générés par appel à l'API dans le fichier projects.js -->
 			</div>
 			<div class="gallery">
-
+				<!-- Gallerie de projets générés par par appel à l'API dans le fichier projects.js -->
 			</div>
 		</section>
 		<section id="contact">

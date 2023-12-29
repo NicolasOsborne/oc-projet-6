@@ -300,6 +300,15 @@ input[type='submit'] {
   cursor: pointer;
 }
 
+footer nav ul {
+  display: flex;
+  justify-content: flex-end;
+  margin: 2em;
+  cursor: pointer;
+}
+
+/* Page de connexion */
+
 #login {
   width: 50%;
   margin: 9rem auto 14rem auto;
@@ -334,9 +343,55 @@ input[type='submit'] {
   color: red;
 }
 
-footer nav ul {
+/* Page d'accueil mode édition */
+
+.edit-mode-banner {
+  height: 3.5rem;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  background: #000;
   display: flex;
-  justify-content: flex-end;
-  margin: 2em;
+  flex-direction: row;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.edit-mode-banner .fa-pen-to-square {
+  height: 1rem;
+  width: 1rem;
+  color: #ffff;
+}
+
+.edit-mode-banner p {
+  font-family: 'Work Sans';
+  font-size: 1rem;
+  font-weight: 400;
+  color: #ffff;
+}
+
+.portfolio-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  margin-left: 7.25rem;
+}
+
+.portfolio-edit-button {
+  font-family: 'Work Sans';
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: #000;
+  background: none;
+  border: none;
   cursor: pointer;
+  margin-bottom: 2em;
+}
+
+.portfolio-edit-button .fa-pen-to-square {
+  height: 1rem;
+  width: 1rem;
+  margin-right: 0.25rem;
 }
