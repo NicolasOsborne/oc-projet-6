@@ -331,6 +331,10 @@ footer nav ul {
   border: none;
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
+#login .input-error {
+  border: 1px solid red;
+}
+
 #login label {
   margin: 2em 0 1em 0;
 }

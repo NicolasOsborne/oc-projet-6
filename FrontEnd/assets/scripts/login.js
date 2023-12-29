@@ -47,12 +47,16 @@ loginForm.addEventListener('submit', async (event) => {
   else if (responseLogin.status === 404) {
     // Message d'erreur
     loginError.innerText = 'Identifiant incorrect'
+    loginEmail.classList.add('input-error')
+    loginPassword.classList.remove('input-error')
   }
 
   // Si le mot de passe est incorrect (401 - Not authorized)
   else if (responseLogin.status === 401) {
     // Message d'erreur
     loginError.innerText = 'Mot de passe incorrect'
+    loginPassword.classList.add('input-error')
+    loginEmail.classList.remove('input-error')
   }
   // Dans le cas d'une autre erreur
   else {
