@@ -36,3 +36,5 @@ loginOrLogout.addEventListener('click', () => {
   // Rediriger vers la page de connexion
   window.location = './login.html'
 })
+
+// Ouvrir la modale d'édition du portfolio
