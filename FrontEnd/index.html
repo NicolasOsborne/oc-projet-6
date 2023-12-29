@@ -22,17 +22,19 @@
 	<!-- Bannière "Mode édition" après connexion -->
 	<div class="edit-mode-banner">
 		<i class="fa-regular fa-pen-to-square"></i>
-		<p>Mode édition</p>
+		Mode édition
 	</div>
 	<!-- -->
 
 	<header>
-		<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
+		<a href="./index.html">
+			<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
+		</a>
 		<nav>
 			<ul>
 				<li><a href="#portfolio">projets</a></li>
 				<li><a href="#contact">contact</a></li>
-				<li><a href="./login.html">login</a></li>
+				<li class="login-logout"><a href="./login.html">login</a></li>
 				<li><a href="https://www.instagram.com" target="_blank"><img src="./assets/icons/instagram.png"
 							alt="Instagram"></a></li>
 			</ul>
@@ -57,10 +59,12 @@
 		<section id="portfolio">
 			<div class="portfolio-title">
 				<h2>Mes Projets</h2>
+				<!-- Bouton "modifier" pour ouvrir la modale d'édition des projets -->
 				<button class="portfolio-edit-button">
 					<i class="fa-regular fa-pen-to-square"></i>
 					modifier
 				</button>
+				<!-- -->
 			</div>
 
 			<div class="filters">
