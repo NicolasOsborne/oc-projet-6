@@ -473,26 +473,32 @@ footer nav ul {
   margin: 0 auto;
 }
 
-.modal-image-gallery img {
-  width: 100%;
+.modal-project-container {
   position: relative;
 }
 
+.modal-image-gallery img {
+  width: 100%;
+}
+
 .modal-image-delete {
-  background-color: #000;
-  height: 18px;
-  width: 18px;
+  background: #000;
+  color: #ffff;
+  height: 17px;
+  width: 17px;
   border-radius: 2px;
+  padding: 3px 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
   position: absolute;
   top: 6px;
   right: 6px;
-  padding: 5px;
-  color: #ffff;
 }
 
 .delete-icon i {
-  font-size: 10px;
+  font-size: 8px;
 }
 
 .modal-underline {

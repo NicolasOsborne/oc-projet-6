@@ -28,16 +28,29 @@ function showProjects(projects) {
     const modalImageGallery = document.querySelector('.modal-image-gallery')
 
     // Créer la balise pour l'image du projet
+    const modalProjectContainer = document.createElement('div')
+    modalProjectContainer.classList.add('modal-project-container')
     const modalProjectImage = document.createElement('img')
     modalProjectImage.src = project.imageUrl
+    // Rattacher l'image au container dans le DOM
+    modalProjectContainer.appendChild(modalProjectImage)
 
-    // Rattacher les images à la gallerie dans le DOM
-    modalImageGallery.appendChild(modalProjectImage)
+    // Créer l'icône de suppression
+    const deleteProject = document.createElement('div')
+    deleteProject.classList.add('modal-image-delete')
+    const iconDeleteProject = document.createElement('i')
+    iconDeleteProject.classList.add('delete-icon')
+    iconDeleteProject.classList.add('fa-solid')
+    iconDeleteProject.classList.add('fa-trash-can')
+    // Rattacher au DOM
+    deleteProject.appendChild(iconDeleteProject)
+    modalProjectContainer.appendChild(deleteProject)
+
+    // Rattacher la div contenant l'image et l'icône à la gallerie dans le DOM
+    modalImageGallery.appendChild(modalProjectContainer)
   }
 }
 showProjects(projects)
-
-// Ajouter les icônes de suppression sur chaque image
 
 // Gérer la suppression lors du clic sur l'icône poubelle
 
