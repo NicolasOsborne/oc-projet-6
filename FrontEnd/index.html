@@ -12,7 +12,8 @@
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
 	<script type="module" src="./assets/scripts/projects.js"></script>
-	<script type="module" src="./assets/scripts/modale.js"></script>
+	<script type="module" src="./assets/scripts/edit-mode.js"></script>
+	<script type="module" src="./assets/scripts/modal.js"></script>
 	<script src="https://kit.fontawesome.com/094ae6d327.js" crossorigin="anonymous"></script>
 
 </head>
@@ -89,17 +90,19 @@
 		</section>
 	</main>
 
-	<aside id="modal1" class="modal">
-		<div class="modal-wrapper">
+
+	<aside id="modal-edit" class="modal-edit-portfolio">
+		<div class="modal-edit-gallery-window">
 			<i class="fa-solid fa-xmark"></i>
 			<h3 class="modal-title">Galerie photo</h3>
-			<div class="modal-gallery">
+			<div class="modal-image-gallery">
 				<!-- Gallerie générée par appel à l'API -->
 			</div>
-			<div class="underline"></div>
+			<div class="modal-underline"></div>
 			<input type="submit" value="Ajouter une photo">
 		</div>
 	</aside>
+
 
 	<footer>
 		<nav>

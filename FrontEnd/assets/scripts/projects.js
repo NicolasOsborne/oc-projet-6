@@ -2,7 +2,7 @@
 
 // Récupération des projets depuis le fichier JSON de l'API
 const responseProjects = await fetch(`http://localhost:5678/api/works`)
-const projects = await responseProjects.json()
+export const projects = await responseProjects.json()
 
 // Générer les projets sur la page web
 function showProjects(projects) {
