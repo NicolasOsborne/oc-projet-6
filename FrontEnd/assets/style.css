@@ -479,13 +479,14 @@ footer nav ul {
 
 .modal-image-gallery img {
   width: 100%;
+  height: 100%;
 }
 
 .modal-image-delete {
   background: #000;
   color: #ffff;
-  height: 17px;
-  width: 17px;
+  height: 11px;
+  width: 9px;
   border-radius: 2px;
   padding: 3px 4px;
   display: flex;
@@ -497,8 +498,8 @@ footer nav ul {
   right: 6px;
 }
 
-.delete-icon i {
-  font-size: 8px;
+.modal-image-delete i {
+  font-size: 10px;
 }
 
 .modal-underline {

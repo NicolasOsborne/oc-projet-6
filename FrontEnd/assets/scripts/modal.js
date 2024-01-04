@@ -5,19 +5,40 @@ const buttonOpenEditor = document.querySelector('.portfolio-edit-button')
 // La balise <aside> de la modale
 const modalPortfolioEditor = document.querySelector('.modal-edit-portfolio')
 
+// La fenêtre modale
+const modalPortfolioEditorWindow = document.querySelector(
+  '.modal-edit-gallery-window'
+)
+
 // La croix pour fermer la fenêtre modale
 const closeEditor = document.querySelector('.fa-xmark')
 
-// Ouvrir la modale d'édition du portfolio au clic sur le bouton "modifier"
-buttonOpenEditor.addEventListener('click', () => {
+// Fonction d'ouverture de la modale
+function openModal(e) {
+  e.preventDefault()
   modalPortfolioEditor.classList.add('modal-edit-portfolio-show')
+}
+
+// Fonction de fermeture de la modale
+function closeModal(e) {
+  e.preventDefault()
+  modalPortfolioEditor.classList.remove('modal-edit-portfolio-show')
+}
+
+// Ouvrir la modale d'édition du portfolio au clic sur le bouton "modifier"
+buttonOpenEditor.addEventListener('click', (e) => {
+  openModal(e)
 })
 
-// Gérer la fermeture de la fenêtre modale au clic sur la croix
-closeEditor.addEventListener('click', () => {
-  modalPortfolioEditor.classList.remove('modal-edit-portfolio-show')
+// Fermer la modale d'édition du portfolio au clic sur la croix X ou en dehors de la fenêtre
+modalPortfolioEditor.addEventListener('click', (e) => {
+  if (e.target === closeEditor || e.target === modalPortfolioEditor) {
+    closeModal(e)
+  }
+  if (e.target === modalPortfolioEditorWindow) {
+    return
+  }
 })
-// Gérer la fermeture de la fenêtre modale au clic en dehors de la fenêtre
 
 // Gérer l'affichage de la galerie d'images via l'API
 import { projects } from './projects.js'
@@ -39,7 +60,6 @@ function showProjects(projects) {
     const deleteProject = document.createElement('div')
     deleteProject.classList.add('modal-image-delete')
     const iconDeleteProject = document.createElement('i')
-    iconDeleteProject.classList.add('delete-icon')
     iconDeleteProject.classList.add('fa-solid')
     iconDeleteProject.classList.add('fa-trash-can')
     // Rattacher au DOM
