@@ -5,13 +5,13 @@ const buttonOpenEditor = document.querySelector('.portfolio-edit-button')
 // La balise <aside> de la modale
 const modalPortfolioEditor = document.querySelector('.modal-edit-portfolio')
 
-// La fenêtre modale
+// La 1ère fenêtre modale pour visualiser et supprimer les projets
 const modalPortfolioEditorWindow = document.querySelector(
   '.modal-edit-gallery-window'
 )
 
 // La croix pour fermer la fenêtre modale
-const closeEditor = document.querySelector('.fa-xmark')
+const closeEditor = document.querySelector('.close-modal')
 
 // Fonction d'ouverture de la modale
 function openModal(e) {
@@ -39,6 +39,8 @@ modalPortfolioEditor.addEventListener('click', (e) => {
     return
   }
 })
+
+// Comportement de la 1ère fenêtre modale :
 
 // Gérer l'affichage de la galerie d'images via l'API
 import { projects } from './projects.js'
@@ -88,7 +90,6 @@ for (let j = 0; j < deleteProject.length; j++) {
       method: 'DELETE',
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then((response) => {
-      console.log(response)
       // La demande de suppression a réussi
       if (response.ok === true) {
         // Vider la gallerie de la modale
@@ -122,4 +123,41 @@ async function refreshProjects(projects) {
   showProjects(projectsRefresh)
 }
 
-// Le bouton "Ajouter une photo" ouvre la 2ème fenêtre modale pour ajouter un nouveau projet
+// Basculer entre la première et la deuxième fenêtre modale :
+
+// Cibler le bouton sur la première fenêtre modale pour ouvrir la deuxième
+const buttonOpenAddProjectWindow = document.getElementById('add-new-project')
+
+// Cibler la 2ème fenêtre modale
+const modalPortfolioEditorAddProjectWindow = document.querySelector(
+  '.modal-add-new-project-window'
+)
+
+// Cibler la flèche pour retourner à la première modale
+const previousModalWindow = document.querySelector('.previous-modal')
+
+// Ouvrir la 2ème modale depuis la 1ère modale
+buttonOpenAddProjectWindow.addEventListener('click', () => {
+  modalPortfolioEditorWindow.classList.add('modal-edit-gallery-window-hide')
+  modalPortfolioEditorAddProjectWindow.classList.add(
+    'modal-add-new-project-window-show'
+  )
+})
+
+// Revenir à la 1ère modale depuis la 2ème modale
+previousModalWindow.addEventListener('click', () => {
+  modalPortfolioEditorAddProjectWindow.classList.remove(
+    'modal-add-new-project-window-show'
+  )
+  modalPortfolioEditorWindow.classList.remove('modal-edit-gallery-window-hide')
+})
+
+// Comportement de la 2ème fenêtre modale :
+
+// Le bouton "+ Ajouter photo" appelle l'input file pour ouvrir le gestionnaire de dossiers et choisir une photo
+const buttonAddNewProjectPhoto = document.querySelector('.button-upload-photo')
+
+buttonAddNewProjectPhoto.addEventListener('click', () => {
+  const inputAddNewProjectPhoto = document.getElementById('input-upload-photo')
+  inputAddNewProjectPhoto.click()
+})

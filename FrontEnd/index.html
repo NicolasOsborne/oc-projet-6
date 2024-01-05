@@ -93,13 +93,34 @@
 
 	<aside id="modal-edit" class="modal-edit-portfolio">
 		<div class="modal-edit-gallery-window">
-			<i class="fa-solid fa-xmark"></i>
+			<i class="fa-solid fa-xmark close-modal"></i>
 			<h3 class="modal-title">Galerie photo</h3>
 			<div class="modal-image-gallery">
 				<!-- Gallerie générée par appel à l'API -->
 			</div>
 			<div class="modal-underline"></div>
-			<input type="submit" id="add-new-project" value="Ajouter une photo">
+			<button id="add-new-project">Ajouter une photo</button>
+		</div>
+
+		<div class="modal-add-new-project-window">
+			<i class="fa-solid fa-arrow-left previous-modal"></i>
+			<i class="fa-solid fa-xmark close-modal"></i>
+			<h3 class="modal-title">Ajout photo</h3>
+
+			<div class="add-new-photo">
+				<i class="fa-regular fa-image"></i>
+				<button class="button-upload-photo">+ Ajouter photo</button>
+				<input type="file" id="input-upload-photo" accept=".jpg, .png">
+				<p>jpg, png : 4mo max</p>
+			</div>
+			<div class="add-new-project-form">
+				<label for="new-project-title">Titre</label>
+				<input type="text" id="new-project-title" name="new-project-title">
+				<label for="new-project-category">Catégorie</label>
+				<input list="projects-categories" id="new-project-category" name="new-project-category">
+			</div>
+			<div class="modal-underline"></div>
+			<input type="submit" id="submit-new-project" value="Valider">
 		</div>
 	</aside>
 

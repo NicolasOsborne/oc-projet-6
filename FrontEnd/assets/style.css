@@ -437,15 +437,6 @@ footer nav ul {
   display: flex;
 }
 
-.modal-edit-gallery-window {
-  background-color: #ffff;
-  width: 40rem;
-  border-radius: 10px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-}
-
 .modal-title {
   color: #000;
   font-family: 'Work Sans';
@@ -462,6 +453,30 @@ footer nav ul {
   top: 30px;
   right: 30px;
   cursor: pointer;
+}
+
+.modal-underline {
+  width: 66%;
+  height: 1px;
+  background: #b3b3b3;
+  display: flex;
+  justify-content: center;
+  margin: 4rem auto 0 auto;
+}
+
+/* Fenêtre de suppression d'un projet */
+
+.modal-edit-gallery-window {
+  background-color: #ffff;
+  width: 40rem;
+  border-radius: 10px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-edit-gallery-window-hide {
+  display: none;
 }
 
 .modal-image-gallery {
@@ -502,21 +517,121 @@ footer nav ul {
   font-size: 10px;
 }
 
-.modal-underline {
-  width: 66%;
-  height: 1px;
-  background: #b3b3b3;
-  display: flex;
-  justify-content: center;
-  margin: 4rem auto 0 auto;
-}
-
-.modal-edit-portfolio input[type='submit'] {
+#add-new-project {
   font-family: 'Syne';
   font-size: 14px;
   font-weight: 700;
   color: white;
   background-color: #1d6154;
+  border: none;
+  margin: 2.25rem auto 3rem auto;
+  height: 36px;
+  width: 237px;
+  text-align: center;
+  border-radius: 60px;
+  cursor: pointer;
+}
+
+/* Fenêtre d'ajout d'un projet */
+
+.modal-add-new-project-window {
+  background-color: #ffff;
+  width: 40rem;
+  border-radius: 10px;
+  position: relative;
+  display: none;
+  flex-direction: column;
+}
+
+.modal-add-new-project-window-show {
+  display: flex;
+}
+
+.modal-edit-portfolio .fa-arrow-left {
+  color: #000;
+  height: 21px;
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  cursor: pointer;
+}
+
+.add-new-photo {
+  width: 66%;
+  height: 10.5rem;
+  border-radius: 3px;
+  background: #e8f1f6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 10px auto;
+}
+
+.add-new-photo i {
+  font-size: 4.75rem;
+  color: #b9c5cc;
+}
+
+.button-upload-photo {
+  width: 11rem;
+  height: 2.25rem;
+  border-radius: 50px;
+  background: #cbd6dc;
+  color: #306685;
+  font-family: 'Work Sans';
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  margin: 6px 0 7px 0;
+  cursor: pointer;
+}
+
+#input-upload-photo {
+  display: none;
+}
+
+.add-new-photo p {
+  color: #444;
+  font-family: 'Work Sans';
+  font-size: 10px;
+  font-weight: 400;
+}
+
+.add-new-project-form {
+  width: 66%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.add-new-project-form label {
+  color: #3d3d3d;
+  font-family: 'Work Sans';
+  font-size: 14px;
+  font-weight: 500;
+  margin: 20px 0 10px 0;
+}
+
+.add-new-project-form input {
+  width: 100%;
+  height: 50px;
+  box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.09);
+  border: none;
+  color: #444;
+  font-family: 'Work Sans';
+  font-size: 14px;
+  font-weight: 400;
+}
+
+#submit-new-project {
+  font-family: 'Syne';
+  font-size: 14px;
+  font-weight: 700;
+  color: white;
+  background-color: #a7a7a7;
   border: none;
   margin: 2.25rem auto 3rem auto;
   height: 36px;
