@@ -93,7 +93,7 @@
 
 	<aside id="modal-edit" class="modal-edit-portfolio">
 		<div class="modal-edit-gallery-window">
-			<i class="fa-solid fa-xmark close-modal"></i>
+			<i class="fa-solid fa-xmark close-modal1"></i>
 			<h3 class="modal-title">Galerie photo</h3>
 			<div class="modal-image-gallery">
 				<!-- Gallerie générée par appel à l'API -->
@@ -104,9 +104,8 @@
 
 		<div class="modal-add-new-project-window">
 			<i class="fa-solid fa-arrow-left previous-modal"></i>
-			<i class="fa-solid fa-xmark close-modal"></i>
+			<i class="fa-solid fa-xmark close-modal2"></i>
 			<h3 class="modal-title">Ajout photo</h3>
-
 			<div class="add-new-photo">
 				<i class="fa-regular fa-image"></i>
 				<button class="button-upload-photo">+ Ajouter photo</button>
@@ -117,7 +116,10 @@
 				<label for="new-project-title">Titre</label>
 				<input type="text" id="new-project-title" name="new-project-title">
 				<label for="new-project-category">Catégorie</label>
-				<input list="projects-categories" id="new-project-category" name="new-project-category">
+				<select list="projects-categories" id="new-project-category" name="new-project-category">
+					<!-- Liste de catégories générée par appel à l'API -->
+				</select>
+
 			</div>
 			<div class="modal-underline"></div>
 			<input type="submit" id="submit-new-project" value="Valider">

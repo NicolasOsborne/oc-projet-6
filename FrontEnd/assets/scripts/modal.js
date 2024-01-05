@@ -11,7 +11,8 @@ const modalPortfolioEditorWindow = document.querySelector(
 )
 
 // La croix pour fermer la fenêtre modale
-const closeEditor = document.querySelector('.close-modal')
+const closeEditor1 = document.querySelector('.close-modal1')
+const closeEditor2 = document.querySelector('.close-modal2')
 
 // Fonction d'ouverture de la modale
 function openModal(e) {
@@ -32,7 +33,11 @@ buttonOpenEditor.addEventListener('click', (e) => {
 
 // Fermer la modale d'édition du portfolio au clic sur la croix X ou en dehors de la fenêtre
 modalPortfolioEditor.addEventListener('click', (e) => {
-  if (e.target === closeEditor || e.target === modalPortfolioEditor) {
+  if (
+    e.target === closeEditor1 ||
+    e.target === closeEditor2 ||
+    e.target === modalPortfolioEditor
+  ) {
     closeModal(e)
   }
   if (e.target === modalPortfolioEditorWindow) {
@@ -76,7 +81,7 @@ function showProjectsInModal(projects) {
 }
 showProjectsInModal(projects)
 
-// Gérer la suppression lors du clic sur l'icône poubelle
+// Suppression des projets lors du clic sur l'icône poubelle
 const deleteProject = document.querySelectorAll('.modal-image-delete')
 
 for (let j = 0; j < deleteProject.length; j++) {
@@ -153,11 +158,46 @@ previousModalWindow.addEventListener('click', () => {
 })
 
 // Comportement de la 2ème fenêtre modale :
+// Cibler les éléments du DOM :
+// La div pour ajouter une nouvelle photo
+const newProjectImage = document.querySelector('.add-new-photo')
 
-// Le bouton "+ Ajouter photo" appelle l'input file pour ouvrir le gestionnaire de dossiers et choisir une photo
+// Le bouton "+ Ajouter photo"
 const buttonAddNewProjectPhoto = document.querySelector('.button-upload-photo')
 
+// Le champ de saisie pour le titre du projet
+const newProjectTitle = document.getElementById('new-project-title')
+
+// La liste déroulante pour la catégorie du projet
+const newProjectCategory = document.getElementById('new-project-category')
+
+// Le bouton "Valider" pour envoyer le nouveau projet
+const submitNewProject = document.getElementById('submit-new-project')
+
+// Le bouton "+ Ajouter photo" appelle l'input file pour ouvrir le gestionnaire de dossiers et choisir une photo à uploader
 buttonAddNewProjectPhoto.addEventListener('click', () => {
   const inputAddNewProjectPhoto = document.getElementById('input-upload-photo')
   inputAddNewProjectPhoto.click()
 })
+
+// Afficher la photo uploadée (et cacher les éléments précédents dans la div "add-new-photo")
+
+// Générer les catégories affichées dans la liste déroulante du formulaire (via l'API)
+import { categories } from './projects.js'
+for (let index = 0; index < categories.length; index++) {
+  let categoryOption = document.createElement('option')
+  categoryOption.innerText = categories[index].name
+  categoryOption.setAttribute('value', `${categories[index].name}`)
+  newProjectCategory.appendChild(categoryOption)
+}
+// Le bouton "Valider" change de couleur une fois que tous les champs et l'image sont renseignés
+
+// Message d'erreur si le formulaire n'est pas correctement rempli
+
+// Création du FormData avec les informations des champs du formulaire
+
+// Envoi à l'API du nouveau projet
+
+// Réponse de l'API si l'envoi a réussi
+
+// Le nouveau projet s'affiche dans la galerie

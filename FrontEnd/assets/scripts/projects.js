@@ -41,7 +41,7 @@ showProjects(projects)
 
 // Récupération des catégories depuis le fichier JSON de l'API
 const responseCategories = await fetch(`http://localhost:5678/api/categories`)
-const categories = await responseCategories.json()
+export const categories = await responseCategories.json()
 
 // Générer les boutons
 
