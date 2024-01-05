@@ -5,7 +5,7 @@ const responseProjects = await fetch(`http://localhost:5678/api/works`)
 export const projects = await responseProjects.json()
 
 // Générer les projets sur la page web
-function showProjects(projects) {
+export function showProjects(projects) {
   for (let i = 0; i < projects.length; i++) {
     const project = projects[i]
 
