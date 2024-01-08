@@ -123,9 +123,9 @@ for (let j = 0; j < deleteProject.length; j++) {
 import { showProjects } from './projects.js'
 async function refreshProjects(projects) {
   const responseProjects = await fetch(`http://localhost:5678/api/works`)
-  const projectsRefresh = await responseProjects.json()
-  showProjectsInModal(projectsRefresh)
-  showProjects(projectsRefresh)
+  projects = await responseProjects.json()
+  showProjectsInModal(projects)
+  showProjects(projects)
 }
 
 // Basculer entre la première et la deuxième fenêtre modale :
@@ -175,12 +175,22 @@ const newProjectCategory = document.getElementById('new-project-category')
 const submitNewProject = document.getElementById('submit-new-project')
 
 // Le bouton "+ Ajouter photo" appelle l'input file pour ouvrir le gestionnaire de dossiers et choisir une photo à uploader
-buttonAddNewProjectPhoto.addEventListener('click', () => {
+buttonAddNewProjectPhoto.addEventListener('click', (e) => {
   const inputAddNewProjectPhoto = document.getElementById('input-upload-photo')
   inputAddNewProjectPhoto.click()
+  e.preventDefault()
 })
 
 // Afficher la photo uploadée (et cacher les éléments précédents dans la div "add-new-photo")
+const inputAddNewProjectPhoto = document.getElementById('input-upload-photo')
+inputAddNewProjectPhoto.addEventListener('change', () => {
+  const uploadedPhoto = inputAddNewProjectPhoto.files[0]
+  const newProjectPhotoPreview = document.createElement('img')
+  newProjectPhotoPreview.classList.add('new-photo-preview')
+  newProjectPhotoPreview.src = URL.createObjectURL(uploadedPhoto)
+  newProjectImage.innerHTML = ''
+  newProjectImage.appendChild(newProjectPhotoPreview)
+})
 
 // Générer les catégories affichées dans la liste déroulante du formulaire (via l'API)
 import { categories } from './projects.js'

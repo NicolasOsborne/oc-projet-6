@@ -455,13 +455,17 @@ footer nav ul {
   cursor: pointer;
 }
 
-.modal-underline {
+.modal-underline,
+.modal-add-new-project-underline {
   width: 66%;
   height: 1px;
   background: #b3b3b3;
   display: flex;
   justify-content: center;
   margin: 4rem auto 0 auto;
+}
+.modal-add-new-project-underline {
+  width: 100%;
 }
 
 /* Fenêtre de suppression d'un projet */
@@ -596,6 +600,10 @@ footer nav ul {
   font-family: 'Work Sans';
   font-size: 10px;
   font-weight: 400;
+}
+
+.new-photo-preview {
+  height: 100%;
 }
 
 .add-new-project-form {
