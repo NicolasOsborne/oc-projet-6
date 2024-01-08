@@ -167,6 +167,7 @@ const newProjectImagePlaceholder = document.querySelector(
 
 // Le bouton "+ Ajouter photo"
 const buttonAddNewProjectPhoto = document.querySelector('.button-upload-photo')
+const inputAddNewProjectPhoto = document.getElementById('input-upload-photo')
 
 // Le formulaire de création d'un nouveau projet
 const formNewProject = document.forms.namedItem('add-new-project-form')
@@ -186,13 +187,11 @@ const submitNewProject = document.getElementById('submit-new-project')
 
 // Le bouton "+ Ajouter photo" appelle l'input file pour ouvrir le gestionnaire de dossiers et choisir une photo à uploader
 buttonAddNewProjectPhoto.addEventListener('click', (e) => {
-  const inputAddNewProjectPhoto = document.getElementById('input-upload-photo')
   inputAddNewProjectPhoto.click()
   e.preventDefault()
 })
 
 // Afficher la photo uploadée (et cacher les éléments précédents dans la div "add-new-photo")
-const inputAddNewProjectPhoto = document.getElementById('input-upload-photo')
 const newProjectPhotoPreview = document.createElement('img')
 inputAddNewProjectPhoto.addEventListener('change', () => {
   const uploadedPhoto = inputAddNewProjectPhoto.files[0]
@@ -210,7 +209,19 @@ for (let index = 0; index < categories.length; index++) {
   categoryOption.setAttribute('value', `${categories[index].id}`)
   newProjectCategory.appendChild(categoryOption)
 }
+
 // Le bouton "Valider" change de couleur une fois que tous les champs et l'image sont renseignés
+formNewProject.addEventListener('input', () => {
+  if (
+    newProjectCategory.value != 0 &&
+    newProjectTitle.value != '' &&
+    inputAddNewProjectPhoto.value != ''
+  ) {
+    submitNewProject.setAttribute('id', 'submit-new-project-complete')
+  } else {
+    submitNewProject.setAttribute('id', 'submit-new-project')
+  }
+})
 
 // Message d'erreur si le formulaire n'est pas correctement rempli
 
