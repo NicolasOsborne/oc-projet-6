@@ -107,20 +107,22 @@
 			<i class="fa-solid fa-xmark close-modal2"></i>
 			<h3 class="modal-title">Ajout photo</h3>
 			<div class="add-new-photo">
-				<i class="fa-regular fa-image"></i>
-				<button class="button-upload-photo" for="input-upload-photo">+ Ajouter photo</button>
-				<input type="file" id="input-upload-photo" name="input-upload-photo" accept=".jpg, .png">
-				<p>jpg, png : 4mo max</p>
+				<div class="add-new-photo-placeholder">
+					<i class="fa-regular fa-image"></i>
+					<button class="button-upload-photo" for="input-upload-photo">+ Ajouter photo</button>
+					<input type="file" id="input-upload-photo" name="image" accept=".jpg, .png" required>
+					<p>jpg, png : 4mo max</p>
+				</div>
 			</div>
-			<form class="add-new-project-form">
-				<label for="new-project-title">Titre</label>
-				<input type="text" id="new-project-title" name="new-project-title">
-				<label for="new-project-category">Catégorie</label>
-				<select list="projects-categories" id="new-project-category" name="new-project-category">
+			<form class="add-new-project-form" name="add-new-project-form">
+				<label for="title">Titre</label>
+				<input type="text" id="new-project-title" name="title" required>
+				<label for="category">Catégorie</label>
+				<select list="projects-categories" id="new-project-category" name="category" required>
 					<!-- Liste de catégories générée par appel à l'API -->
 				</select>
 				<div class="modal-add-new-project-underline"></div>
-				<input type="submit" id="submit-new-project" value="Valider">
+				<input type="submit" id="submit-new-project" class="submit-new-project-form-incomplete" value="Valider">
 			</form>
 		</div>
 	</aside>

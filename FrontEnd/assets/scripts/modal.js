@@ -161,15 +161,25 @@ previousModalWindow.addEventListener('click', () => {
 // Cibler les éléments du DOM :
 // La div pour ajouter une nouvelle photo
 const newProjectImage = document.querySelector('.add-new-photo')
+const newProjectImagePlaceholder = document.querySelector(
+  '.add-new-photo-placeholder'
+)
 
 // Le bouton "+ Ajouter photo"
 const buttonAddNewProjectPhoto = document.querySelector('.button-upload-photo')
+
+// Le formulaire de création d'un nouveau projet
+const formNewProject = document.forms.namedItem('add-new-project-form')
 
 // Le champ de saisie pour le titre du projet
 const newProjectTitle = document.getElementById('new-project-title')
 
 // La liste déroulante pour la catégorie du projet
 const newProjectCategory = document.getElementById('new-project-category')
+let categoryOptionNone = document.createElement('option')
+categoryOptionNone.innerHTML = ''
+categoryOptionNone.setAttribute('value', '0')
+newProjectCategory.appendChild(categoryOptionNone)
 
 // Le bouton "Valider" pour envoyer le nouveau projet
 const submitNewProject = document.getElementById('submit-new-project')
@@ -183,12 +193,12 @@ buttonAddNewProjectPhoto.addEventListener('click', (e) => {
 
 // Afficher la photo uploadée (et cacher les éléments précédents dans la div "add-new-photo")
 const inputAddNewProjectPhoto = document.getElementById('input-upload-photo')
+const newProjectPhotoPreview = document.createElement('img')
 inputAddNewProjectPhoto.addEventListener('change', () => {
   const uploadedPhoto = inputAddNewProjectPhoto.files[0]
-  const newProjectPhotoPreview = document.createElement('img')
   newProjectPhotoPreview.classList.add('new-photo-preview')
   newProjectPhotoPreview.src = URL.createObjectURL(uploadedPhoto)
-  newProjectImage.innerHTML = ''
+  newProjectImagePlaceholder.classList.add('add-new-photo-placeholder-hide')
   newProjectImage.appendChild(newProjectPhotoPreview)
 })
 
@@ -197,7 +207,7 @@ import { categories } from './projects.js'
 for (let index = 0; index < categories.length; index++) {
   let categoryOption = document.createElement('option')
   categoryOption.innerText = categories[index].name
-  categoryOption.setAttribute('value', `${categories[index].name}`)
+  categoryOption.setAttribute('value', `${categories[index].id}`)
   newProjectCategory.appendChild(categoryOption)
 }
 // Le bouton "Valider" change de couleur une fois que tous les champs et l'image sont renseignés
@@ -205,9 +215,42 @@ for (let index = 0; index < categories.length; index++) {
 // Message d'erreur si le formulaire n'est pas correctement rempli
 
 // Création du FormData avec les informations des champs du formulaire
+formNewProject.addEventListener('submit', (e) => {
+  e.preventDefault()
+  let formData = new FormData()
+  formData.append('image', inputAddNewProjectPhoto.files[0])
+  formData.append('title', newProjectTitle.value)
+  formData.append('category', newProjectCategory.value)
+  addNewProject(formData)
+})
 
 // Envoi à l'API du nouveau projet
+async function addNewProject(formData) {
+  await fetch('http://localhost:5678/api/works', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+    body: formData,
+  }).then((response) => {
+    // Réponse de l'API si l'envoi a réussi
+    if (response.ok === true) {
+      // Vider le formulaire d'ajout
+      newProjectImagePlaceholder.classList.remove(
+        'add-new-photo-placeholder-hide'
+      )
+      newProjectImage.removeChild(newProjectPhotoPreview)
+      newProjectTitle.value = ''
+      newProjectCategory.value = ''
 
-// Réponse de l'API si l'envoi a réussi
-
-// Le nouveau projet s'affiche dans la galerie
+      // La modale se ferme
+      modalPortfolioEditor.classList.remove('modal-edit-portfolio-show')
+      // Le nouveau projet s'affiche dans la galerie (et dans la modale) sans avoir à rafraîchir la page
+      const projectsGallery = document.querySelector('.gallery')
+      projectsGallery.innerHTML = ''
+      refreshProjects(projects)
+    } else {
+      // Message d'erreur
+    }
+  })
+}

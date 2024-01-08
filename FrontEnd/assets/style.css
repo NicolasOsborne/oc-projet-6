@@ -566,10 +566,20 @@ footer nav ul {
   border-radius: 3px;
   background: #e8f1f6;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   margin: 0 auto 10px auto;
+}
+
+.add-new-photo-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-new-photo-placeholder-hide {
+  display: none;
 }
 
 .add-new-photo i {
