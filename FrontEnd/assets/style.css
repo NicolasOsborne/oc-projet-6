@@ -616,6 +616,10 @@ footer nav ul {
   height: 100%;
 }
 
+.new-photo-preview-hide {
+  display: none;
+}
+
 .add-new-project-form {
   width: 66%;
   display: flex;
@@ -660,6 +664,12 @@ footer nav ul {
   border-right-width: 28px;
   padding-left: 16px;
   outline: none;
+}
+
+.add-new-project-form p {
+  margin: 2em auto 0 auto;
+  color: red;
+  text-align: center;
 }
 
 #submit-new-project {

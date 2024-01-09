@@ -2,7 +2,7 @@
 // Le bouton "Modifier" pour ouvrir la modale
 const buttonOpenEditor = document.querySelector('.portfolio-edit-button')
 
-// La balise <aside> de la modale
+// La balise <aside> englobant les modales
 const modalPortfolioEditor = document.querySelector('.modal-edit-portfolio')
 
 // La 1ère fenêtre modale pour visualiser et supprimer les projets
@@ -47,13 +47,14 @@ modalPortfolioEditor.addEventListener('click', (e) => {
 
 // Comportement de la 1ère fenêtre modale :
 
+// Cibler la div du DOM qui affichera les projets
+const modalImageGallery = document.querySelector('.modal-image-gallery')
+
 // Gérer l'affichage de la galerie d'images via l'API
 import { projects } from './projects.js'
 function showProjectsInModal(projects) {
   for (let i = 0; i < projects.length; i++) {
     const project = projects[i]
-    // Cibler la div du DOM qui affichera les projets
-    const modalImageGallery = document.querySelector('.modal-image-gallery')
 
     // Créer la balise pour l'image du projet
     const modalProjectContainer = document.createElement('div')
@@ -86,37 +87,37 @@ const deleteProject = document.querySelectorAll('.modal-image-delete')
 
 for (let j = 0; j < deleteProject.length; j++) {
   deleteProject[j].addEventListener('click', (e) => {
+    e.preventDefault()
     let projectId = e.currentTarget.id
     deleteProjectFromPortfolio(projectId)
   })
+}
 
-  async function deleteProjectFromPortfolio(projectId, projects) {
-    await fetch(`http://localhost:5678/api/works/${projectId}`, {
-      method: 'DELETE',
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-    }).then((response) => {
-      // La demande de suppression a réussi
-      if (response.ok === true) {
-        // Vider la gallerie de la modale
-        const modalImageGallery = document.querySelector('.modal-image-gallery')
-        modalImageGallery.innerHTML = ''
-        // Vider la gallerie de la page index.html
-        const projectsGallery = document.querySelector('.gallery')
-        projectsGallery.innerHTML = ''
-        // Afficher les projets restants sans avoir à rafraîchir la page
-        refreshProjects(projects)
-      }
-      // En cas d'erreur de requête
-      else {
-        // Message d'erreur
-        const deleteError = document.createElement('p')
-        const addPhotoButton = document.querySelector('.add-new-project')
-        deleteError.insertBefore(deleteError, addPhotoButton)
-        deleteError.innerText =
-          "Erreur lors de la suppression du projet. Vérifiez que vous êtes bien connecté et que vous avez l'authorisation de modifier le portfolio."
-      }
-    })
-  }
+async function deleteProjectFromPortfolio(projectId, projects) {
+  await fetch(`http://localhost:5678/api/works/${projectId}`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+  }).then((response) => {
+    // La demande de suppression a réussi
+    if (response.ok === true) {
+      // Vider la gallerie de la modale
+      modalImageGallery.innerHTML = ''
+      // Vider la gallerie de la page index.html
+      const projectsGallery = document.querySelector('.gallery')
+      projectsGallery.innerHTML = ''
+      // Afficher les projets restants sans avoir à rafraîchir la page
+      refreshProjects(projects)
+    }
+    // En cas d'erreur de requête
+    else {
+      // Message d'erreur
+      const deleteError = document.createElement('p')
+      const addPhotoButton = document.querySelector('.add-new-project')
+      deleteError.insertBefore(deleteError, addPhotoButton)
+      deleteError.innerText =
+        "Erreur lors de la suppression du projet. Vérifiez que vous êtes bien connecté et que vous avez l'authorisation de modifier le portfolio."
+    }
+  })
 }
 
 // Fonction qui refait un appel à l'API pour récupérer les projets restants après la suppression et met à jour leur affichage dans le portfolio de la page index.html ainsi que dans la galerie photo de la modale
@@ -210,6 +211,10 @@ for (let index = 0; index < categories.length; index++) {
   newProjectCategory.appendChild(categoryOption)
 }
 
+// Message d'erreur si le formulaire n'est pas correctement rempli
+const addProjectError = document.createElement('p')
+formNewProject.insertBefore(addProjectError, submitNewProject)
+
 // Le bouton "Valider" change de couleur une fois que tous les champs et l'image sont renseignés
 formNewProject.addEventListener('input', () => {
   if (
@@ -222,8 +227,6 @@ formNewProject.addEventListener('input', () => {
     submitNewProject.setAttribute('id', 'submit-new-project')
   }
 })
-
-// Message d'erreur si le formulaire n'est pas correctement rempli
 
 // Création du FormData avec les informations des champs du formulaire
 formNewProject.addEventListener('submit', (e) => {
@@ -253,15 +256,22 @@ async function addNewProject(formData) {
       newProjectImage.removeChild(newProjectPhotoPreview)
       newProjectTitle.value = ''
       newProjectCategory.value = ''
-
+      addProjectError.innerText = ''
       // La modale se ferme
       modalPortfolioEditor.classList.remove('modal-edit-portfolio-show')
       // Le nouveau projet s'affiche dans la galerie (et dans la modale) sans avoir à rafraîchir la page
       const projectsGallery = document.querySelector('.gallery')
       projectsGallery.innerHTML = ''
+      modalImageGallery.innerHTML = ''
       refreshProjects(projects)
+    } else if (response.status === 401) {
+      // Message d'erreur
+      addProjectError.innerText =
+        "Erreur lors de l'ajout du nouveau projet. Assurez-vous d'être bien connecté."
     } else {
       // Message d'erreur
+      addProjectError.innerText =
+        "Erreur lors de l'ajout du nouveau projet. Assurez-vous d'avoir bien renseigné tous les champs."
     }
   })
 }
