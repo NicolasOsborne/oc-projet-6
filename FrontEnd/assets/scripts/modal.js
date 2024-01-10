@@ -50,6 +50,9 @@ modalPortfolioEditor.addEventListener('click', (e) => {
 // Cibler la div du DOM qui affichera les projets
 const modalImageGallery = document.querySelector('.modal-image-gallery')
 
+// Cibler le bouton sur la première fenêtre modale pour ouvrir la deuxième
+const buttonOpenAddProjectWindow = document.getElementById('add-new-project')
+
 // Gérer l'affichage de la galerie d'images via l'API
 import { projects } from './projects.js'
 function showProjectsInModal(projects) {
@@ -82,7 +85,7 @@ function showProjectsInModal(projects) {
 }
 showProjectsInModal(projects)
 
-// Suppression des projets lors du clic sur l'icône poubelle
+// Suppression des projets lors du clic sur l'icône de suppression
 const deleteProject = document.querySelectorAll('.modal-image-delete')
 
 for (let j = 0; j < deleteProject.length; j++) {
@@ -93,7 +96,7 @@ for (let j = 0; j < deleteProject.length; j++) {
   })
 }
 
-async function deleteProjectFromPortfolio(projectId, projects) {
+async function deleteProjectFromPortfolio(projectId) {
   await fetch(`http://localhost:5678/api/works/${projectId}`, {
     method: 'DELETE',
     headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
@@ -112,8 +115,7 @@ async function deleteProjectFromPortfolio(projectId, projects) {
     else {
       // Message d'erreur
       const deleteError = document.createElement('p')
-      const addPhotoButton = document.querySelector('.add-new-project')
-      deleteError.insertBefore(deleteError, addPhotoButton)
+      deleteError.insertBefore(deleteError, buttonOpenAddProjectWindow)
       deleteError.innerText =
         "Erreur lors de la suppression du projet. Vérifiez que vous êtes bien connecté et que vous avez l'authorisation de modifier le portfolio."
     }
@@ -130,9 +132,6 @@ async function refreshProjects(projects) {
 }
 
 // Basculer entre la première et la deuxième fenêtre modale :
-
-// Cibler le bouton sur la première fenêtre modale pour ouvrir la deuxième
-const buttonOpenAddProjectWindow = document.getElementById('add-new-project')
 
 // Cibler la 2ème fenêtre modale
 const modalPortfolioEditorAddProjectWindow = document.querySelector(
@@ -167,7 +166,7 @@ const newProjectImagePlaceholder = document.querySelector(
 )
 
 // Le bouton "+ Ajouter photo"
-const buttonAddNewProjectPhoto = document.querySelector('.button-upload-photo')
+const buttonAddNewProjectPhoto = document.getElementById('button-upload-photo')
 const inputAddNewProjectPhoto = document.getElementById('input-upload-photo')
 
 // Le formulaire de création d'un nouveau projet
@@ -213,6 +212,7 @@ for (let index = 0; index < categories.length; index++) {
 
 // Message d'erreur si le formulaire n'est pas correctement rempli
 const addProjectError = document.createElement('p')
+addProjectError.classList.add('form-error-message')
 formNewProject.insertBefore(addProjectError, submitNewProject)
 
 // Le bouton "Valider" change de couleur une fois que tous les champs et l'image sont renseignés
@@ -254,20 +254,24 @@ async function addNewProject(formData) {
         'add-new-photo-placeholder-hide'
       )
       newProjectImage.removeChild(newProjectPhotoPreview)
-      newProjectTitle.value = ''
-      newProjectCategory.value = ''
-      addProjectError.innerText = ''
+      formNewProject.reset()
+
       // La modale se ferme
       modalPortfolioEditor.classList.remove('modal-edit-portfolio-show')
+
       // Le nouveau projet s'affiche dans la galerie (et dans la modale) sans avoir à rafraîchir la page
       const projectsGallery = document.querySelector('.gallery')
       projectsGallery.innerHTML = ''
       modalImageGallery.innerHTML = ''
       refreshProjects(projects)
+
+      // La session de connexion a expirée (Error 401)
     } else if (response.status === 401) {
       // Message d'erreur
       addProjectError.innerText =
         "Erreur lors de l'ajout du nouveau projet. Assurez-vous d'être bien connecté."
+
+      // Une autre erreur est survenue
     } else {
       // Message d'erreur
       addProjectError.innerText =

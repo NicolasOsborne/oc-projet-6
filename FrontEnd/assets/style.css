@@ -561,14 +561,15 @@ footer nav ul {
 }
 
 .add-new-photo {
-  width: 66%;
-  height: 10.5rem;
+  width: 100%;
+  height: 169px;
   border-radius: 3px;
   background: #e8f1f6;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 10px auto;
+  margin: 0 auto 0 auto;
 }
 
 .add-new-photo-placeholder {
@@ -585,19 +586,25 @@ footer nav ul {
 .add-new-photo i {
   font-size: 4.75rem;
   color: #b9c5cc;
+  margin: 22px auto 10px auto;
+  display: flex;
+  justify-content: center;
 }
 
-.button-upload-photo {
+#button-upload-photo {
   width: 11rem;
-  height: 2.25rem;
+  padding: 10px 0 10px 0;
   border-radius: 50px;
   background: #cbd6dc;
   color: #306685;
   font-family: 'Work Sans';
   font-size: 14px;
   font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: none;
-  margin: 6px 0 7px 0;
+  margin: 0 auto 0 auto;
   cursor: pointer;
 }
 
@@ -605,11 +612,18 @@ footer nav ul {
   display: none;
 }
 
+#input-upload-photo-preview {
+  display: flex;
+  height: 100%;
+}
+
 .add-new-photo p {
   color: #444;
   font-family: 'Work Sans';
   font-size: 10px;
   font-weight: 400;
+  text-align: center;
+  margin: 7px auto 19px auto;
 }
 
 .new-photo-preview {
@@ -666,7 +680,7 @@ footer nav ul {
   outline: none;
 }
 
-.add-new-project-form p {
+.form-error-message {
   margin: 2em auto 0 auto;
   color: red;
   text-align: center;

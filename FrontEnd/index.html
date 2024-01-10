@@ -102,19 +102,22 @@
 			<button id="add-new-project">Ajouter une photo</button>
 		</div>
 
+
 		<div class="modal-add-new-project-window">
 			<i class="fa-solid fa-arrow-left previous-modal"></i>
 			<i class="fa-solid fa-xmark close-modal2"></i>
 			<h3 class="modal-title">Ajout photo</h3>
-			<div class="add-new-photo">
-				<div class="add-new-photo-placeholder">
-					<i class="fa-regular fa-image"></i>
-					<button class="button-upload-photo" for="image">+ Ajouter photo</button>
-					<input type="file" id="input-upload-photo" name="image" accept=".jpg, .png" required>
-					<p>jpg, png : 4mo max</p>
-				</div>
-			</div>
 			<form class="add-new-project-form" name="add-new-project-form">
+				<div class="add-new-photo">
+					<div class="add-new-photo-placeholder">
+						<i class="fa-regular fa-image"></i>
+						<label id="button-upload-photo" for="image">+ Ajouter photo</label>
+						<input type="file" id="input-upload-photo" name="image" accept=".jpg, .png" required>
+						<p>jpg, png : 4mo max</p>
+					</div>
+
+				</div>
+
 				<label for="title">Titre</label>
 				<input type="text" id="new-project-title" name="title" required>
 				<label for="category">Catégorie</label>
