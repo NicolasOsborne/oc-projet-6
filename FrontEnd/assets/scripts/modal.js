@@ -54,7 +54,7 @@ const modalImageGallery = document.querySelector('.modal-image-gallery')
 const buttonOpenAddProjectWindow = document.getElementById('add-new-project')
 
 // Gérer l'affichage de la galerie d'images via l'API
-import { projects } from './projects.js'
+import { projects, showProjects } from './projects.js'
 function showProjectsInModal(projects) {
   for (let i = 0; i < projects.length; i++) {
     const project = projects[i]
@@ -82,48 +82,47 @@ function showProjectsInModal(projects) {
     // Rattacher la div contenant l'image et l'icône à la gallerie dans le DOM
     modalImageGallery.appendChild(modalProjectContainer)
   }
+  deleteProjectFromPortfolio()
 }
 showProjectsInModal(projects)
 
-// Suppression des projets lors du clic sur l'icône de suppression
-const deleteProject = document.querySelectorAll('.modal-image-delete')
+// Suppression d'un projet dans la modale
 
-for (let j = 0; j < deleteProject.length; j++) {
-  deleteProject[j].addEventListener('click', (e) => {
-    e.preventDefault()
-    let projectId = e.currentTarget.id
-    deleteProjectFromPortfolio(projectId)
-  })
-}
-
-async function deleteProjectFromPortfolio(projectId) {
-  await fetch(`http://localhost:5678/api/works/${projectId}`, {
-    method: 'DELETE',
-    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-  }).then((response) => {
-    // La demande de suppression a réussi
-    if (response.ok === true) {
-      // Vider la gallerie de la modale
-      modalImageGallery.innerHTML = ''
-      // Vider la gallerie de la page index.html
-      const projectsGallery = document.querySelector('.gallery')
-      projectsGallery.innerHTML = ''
-      // Afficher les projets restants sans avoir à rafraîchir la page
-      refreshProjects(projects)
-    }
-    // En cas d'erreur de requête
-    else {
-      // Message d'erreur
-      const deleteError = document.createElement('p')
-      deleteError.insertBefore(deleteError, buttonOpenAddProjectWindow)
-      deleteError.innerText =
-        "Erreur lors de la suppression du projet. Vérifiez que vous êtes bien connecté et que vous avez l'authorisation de modifier le portfolio."
-    }
+function deleteProjectFromPortfolio() {
+  const deleteProject = document.querySelectorAll('.modal-image-delete')
+  deleteProject.forEach((containerIconDeleteProject) => {
+    containerIconDeleteProject.addEventListener('click', (e) => {
+      e.preventDefault()
+      let projectId = e.currentTarget.id
+      fetch(`http://localhost:5678/api/works/${projectId}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      }).then((response) => {
+        // La demande de suppression a réussi
+        if (response.ok === true) {
+          // Vider la gallerie de la modale
+          modalImageGallery.innerHTML = ''
+          // Vider la gallerie de la page index.html
+          const projectsGallery = document.querySelector('.gallery')
+          projectsGallery.innerHTML = ''
+          // Afficher les projets restants sans avoir à rafraîchir la page
+          refreshProjects(projects)
+        }
+        // En cas d'erreur de requête
+        else {
+          // Message d'erreur
+          const deleteError = document.createElement('p')
+          deleteError.insertBefore(deleteError, buttonOpenAddProjectWindow)
+          deleteError.innerText =
+            "Erreur lors de la suppression du projet. Vérifiez que vous êtes bien connecté et que vous avez l'authorisation de modifier le portfolio."
+        }
+      })
+    })
   })
 }
 
 // Fonction qui refait un appel à l'API pour récupérer les projets restants après la suppression et met à jour leur affichage dans le portfolio de la page index.html ainsi que dans la galerie photo de la modale
-import { showProjects } from './projects.js'
+
 async function refreshProjects(projects) {
   const responseProjects = await fetch(`http://localhost:5678/api/works`)
   projects = await responseProjects.json()
