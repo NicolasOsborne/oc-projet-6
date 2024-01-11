@@ -111,17 +111,17 @@
 				<div class="add-new-photo">
 					<div class="add-new-photo-placeholder">
 						<i class="fa-regular fa-image"></i>
-						<label id="button-upload-photo" for="image">+ Ajouter photo</label>
-						<input type="file" id="input-upload-photo" name="image" accept=".jpg, .png" required>
+						<label id="button-upload-photo" for="input-upload-photo">+ Ajouter photo</label>
+						<input type="file" id="input-upload-photo" name="image" accept=".jpg, .png">
 						<p class="photo-accepted">jpg, png : 4mo max</p>
 					</div>
 
 				</div>
 
-				<label for="title">Titre</label>
-				<input type="text" id="new-project-title" name="title" required>
-				<label for="category">Catégorie</label>
-				<select list="projects-categories" id="new-project-category" name="category" required>
+				<label for="new-project-title">Titre</label>
+				<input type="text" id="new-project-title" name="title">
+				<label for="new-project-category">Catégorie</label>
+				<select list="projects-categories" id="new-project-category" name="category">
 					<!-- Liste de catégories générée par appel à l'API -->
 				</select>
 				<div class="modal-add-new-project-underline"></div>

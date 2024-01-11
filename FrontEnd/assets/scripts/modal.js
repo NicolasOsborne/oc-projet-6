@@ -208,7 +208,7 @@ inputAddNewProjectPhoto.addEventListener('change', () => {
     newProjectImagePlaceholder.classList.add('add-new-photo-placeholder-hide')
     newProjectImage.appendChild(newProjectPhotoPreview)
   } else {
-    // Ajouter un message d'erreur
+    // Afficher un message d'erreur
     imageUploadError.classList.add('photo-accepted-error-show')
   }
 })
@@ -267,11 +267,47 @@ formNewProject.addEventListener('input', () => {
 // Création du FormData avec les informations des champs du formulaire
 formNewProject.addEventListener('submit', (e) => {
   e.preventDefault()
-  let formData = new FormData()
-  formData.append('image', inputAddNewProjectPhoto.files[0])
-  formData.append('title', newProjectTitle.value)
-  formData.append('category', newProjectCategory.value)
-  addNewProject(formData)
+
+  // Si tout le formulaire est bien rempli
+  if (
+    newProjectCategory.value != 0 &&
+    newProjectTitle.value != '' &&
+    inputAddNewProjectPhoto.value != ''
+  ) {
+    let formData = new FormData()
+    formData.append('image', inputAddNewProjectPhoto.files[0])
+    formData.append('title', newProjectTitle.value)
+    formData.append('category', newProjectCategory.value)
+    addNewProject(formData)
+  }
+
+  // Si il n'y a pas d'image uploadée
+  else if (inputAddNewProjectPhoto.value == '') {
+    newProjectImage.classList.add('input-error')
+    addProjectError.classList.add('form-error-message-show')
+    addProjectError.innerText =
+      'Veuillez choisir une photo à ajouter pour le nouveau projet'
+  }
+
+  // Si il n'y a pas de titre saisi
+  else if (newProjectTitle.value == '') {
+    newProjectTitle.classList.add('input-error')
+    newProjectImage.classList.remove('input-error')
+    newProjectCategory.classList.remove('input-error')
+    addProjectError.classList.add('form-error-message-show')
+    addProjectError.innerText =
+      'Veuillez saisir un titre pour le nouveau projet.'
+  }
+
+  // Si il n'y a pas de catégorie sélectionnée
+  else if (newProjectCategory.value == 0) {
+    newProjectCategory.classList.add('input-error')
+    newProjectImage.classList.remove('input-error')
+    newProjectTitle.classList.remove('input-error')
+    addProjectError.classList.add('form-error-message-show')
+    addProjectError.innerText =
+      'Veuillez selectionner une catégorie pour le nouveau projet.'
+  }
 })
 
 // Envoi à l'API du nouveau projet
@@ -292,6 +328,12 @@ async function addNewProject(formData) {
       newProjectImage.removeChild(newProjectPhotoPreview)
       imageUploadError.classList.remove('photo-accepted-error-show')
       addProjectError.classList.remove('form-error-message-show')
+
+      const clearAllInputErrors = document.querySelectorAll('.input-error')
+      for (let k = 0; k < clearAllInputErrors.length; k++) {
+        clearAllInputErrors[k].classList.remove('input-error')
+      }
+
       formNewProject.reset()
 
       // La modale se ferme
@@ -308,14 +350,14 @@ async function addNewProject(formData) {
       // Message d'erreur
       addProjectError.classList.add('form-error-message-show')
       addProjectError.innerText =
-        "Erreur lors de l'ajout du nouveau projet. Assurez-vous d'être bien connecté."
+        "Erreur lors de l'ajout du nouveau projet. Veuillez vous reconnecter et réessayer."
 
-      // Une autre erreur est survenue
+      // Une autre erreur innatendue est survenue (Error 500)
     } else {
       // Message d'erreur
       addProjectError.classList.add('form-error-message-show')
       addProjectError.innerText =
-        "Erreur lors de l'ajout du nouveau projet. Assurez-vous d'avoir bien renseigné tous les champs."
+        "Erreur innatendue lors de l'ajout du nouveau projet. Veuillez réessayer."
     }
   })
   console.log('Le nouveau projet a bien été ajouté')
