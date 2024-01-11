@@ -1,4 +1,4 @@
-// Récupérer les projets éventuellement stockés dans le localStorage
+console.log("La page s'est rechargée")
 
 // Récupération des projets depuis le fichier JSON de l'API
 const responseProjects = await fetch(`http://localhost:5678/api/works`)

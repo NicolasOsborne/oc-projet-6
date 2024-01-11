@@ -107,6 +107,7 @@ function deleteProjectFromPortfolio() {
           projectsGallery.innerHTML = ''
           // Afficher les projets restants sans avoir à rafraîchir la page
           refreshProjects(projects)
+          console.log('Le projet a bien été supprimé')
         }
         // En cas d'erreur de requête
         else {
@@ -253,6 +254,7 @@ async function addNewProject(formData) {
         'add-new-photo-placeholder-hide'
       )
       newProjectImage.removeChild(newProjectPhotoPreview)
+      addProjectError.innerText = ''
       formNewProject.reset()
 
       // La modale se ferme
@@ -277,4 +279,5 @@ async function addNewProject(formData) {
         "Erreur lors de l'ajout du nouveau projet. Assurez-vous d'avoir bien renseigné tous les champs."
     }
   })
+  console.log('Le nouveau projet a bien été ajouté')
 }
