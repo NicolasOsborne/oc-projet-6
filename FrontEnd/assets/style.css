@@ -617,13 +617,28 @@ footer nav ul {
   height: 100%;
 }
 
-.add-new-photo p {
+.photo-accepted {
   color: #444;
   font-family: 'Work Sans';
   font-size: 10px;
   font-weight: 400;
   text-align: center;
   margin: 7px auto 19px auto;
+}
+
+.photo-accepted-error {
+  display: none;
+}
+
+.photo-accepted-error-show {
+  display: block;
+  color: red;
+  font-family: 'Work Sans';
+  font-size: 10px;
+  font-weight: 400;
+  text-align: center;
+  margin-top: -10px;
+  margin-bottom: 20px;
 }
 
 .new-photo-preview {
@@ -681,6 +696,11 @@ footer nav ul {
 }
 
 .form-error-message {
+  display: none;
+}
+
+.form-error-message-show {
+  display: block;
   margin: 2em auto 0 auto;
   color: red;
   text-align: center;

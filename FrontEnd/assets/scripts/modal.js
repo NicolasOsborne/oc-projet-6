@@ -191,15 +191,51 @@ buttonAddNewProjectPhoto.addEventListener('click', (e) => {
   e.preventDefault()
 })
 
+// Message d'erreur pour l'upload de la photo
+const imageUploadError = document.createElement('p')
+imageUploadError.classList.add('photo-accepted-error')
+newProjectImagePlaceholder.appendChild(imageUploadError)
+
 // Afficher la photo uploadée (et cacher les éléments précédents dans la div "add-new-photo")
 const newProjectPhotoPreview = document.createElement('img')
 inputAddNewProjectPhoto.addEventListener('change', () => {
   const uploadedPhoto = inputAddNewProjectPhoto.files[0]
-  newProjectPhotoPreview.classList.add('new-photo-preview')
-  newProjectPhotoPreview.src = URL.createObjectURL(uploadedPhoto)
-  newProjectImagePlaceholder.classList.add('add-new-photo-placeholder-hide')
-  newProjectImage.appendChild(newProjectPhotoPreview)
+  // Si l'image est de la bonne taille et au bon format
+  if (verifyImageType(uploadedPhoto) && verifyImageSize(uploadedPhoto)) {
+    // Elle est ajoutée au preview à la place du placeholder
+    newProjectPhotoPreview.classList.add('new-photo-preview')
+    newProjectPhotoPreview.src = URL.createObjectURL(uploadedPhoto)
+    newProjectImagePlaceholder.classList.add('add-new-photo-placeholder-hide')
+    newProjectImage.appendChild(newProjectPhotoPreview)
+  } else {
+    // Ajouter un message d'erreur
+    imageUploadError.classList.add('photo-accepted-error-show')
+  }
 })
+
+// Vérifier que l'image choisie est au bon format (jpg ou png)
+let acceptedImageType = ['image/jpeg', 'image/jpg', 'image/png']
+function verifyImageType(uploadedPhoto) {
+  for (let i = 0; i < acceptedImageType.length; i++) {
+    if (uploadedPhoto.type === acceptedImageType[i]) {
+      return true
+    }
+  }
+  imageUploadError.innerText =
+    "Ce format d'image n'est pas accepté (jpg ou png)."
+  return false
+}
+
+// Vérifier que l'image choisie est à la bonne taille (4mo maximum)
+function verifyImageSize(uploadedPhoto) {
+  const uploadedImageSize = uploadedPhoto.size / 1024 / 1024
+  if (uploadedImageSize <= 4) {
+    return true
+  }
+  imageUploadError.innerText =
+    'Cette image est trop volumineuse (taille supérieure à 4mo).'
+  return false
+}
 
 // Générer les catégories affichées dans la liste déroulante du formulaire (via l'API)
 import { categories } from './projects.js'
@@ -254,7 +290,8 @@ async function addNewProject(formData) {
         'add-new-photo-placeholder-hide'
       )
       newProjectImage.removeChild(newProjectPhotoPreview)
-      addProjectError.innerText = ''
+      imageUploadError.classList.remove('photo-accepted-error-show')
+      addProjectError.classList.remove('form-error-message-show')
       formNewProject.reset()
 
       // La modale se ferme
@@ -269,12 +306,14 @@ async function addNewProject(formData) {
       // La session de connexion a expirée (Error 401)
     } else if (response.status === 401) {
       // Message d'erreur
+      addProjectError.classList.add('form-error-message-show')
       addProjectError.innerText =
         "Erreur lors de l'ajout du nouveau projet. Assurez-vous d'être bien connecté."
 
       // Une autre erreur est survenue
     } else {
       // Message d'erreur
+      addProjectError.classList.add('form-error-message-show')
       addProjectError.innerText =
         "Erreur lors de l'ajout du nouveau projet. Assurez-vous d'avoir bien renseigné tous les champs."
     }
