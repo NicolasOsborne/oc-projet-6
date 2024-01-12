@@ -1,4 +1,7 @@
-// Cibler les éléments du DOM
+////////////////////////////////////////////////////
+// Cibler et récupérer les éléments HTML du DOM : //
+////////////////////////////////////////////////////
+
 // Le formulaire de connexion
 const loginForm = document.getElementById('login-form')
 
@@ -14,6 +17,10 @@ const loginSubmit = document.getElementById('submit')
 // Créer l'élément pour l'affichage du message d'erreur
 const loginError = document.createElement('p')
 loginForm.insertBefore(loginError, loginSubmit)
+
+/////////////////////////////////////////////////
+// Gestion de la connexion de l'utilisatrice : //
+/////////////////////////////////////////////////
 
 // Ecouter le bouton d'envoi de la demande de connexion
 loginForm.addEventListener('submit', async (event) => {

@@ -1,10 +1,15 @@
+// Vérification pour voir si la page se recharge
 console.log("La page s'est rechargée")
+
+/////////////////////////////////////////////////////////////////////////////////////
+// Générer les projets via l'API pour les afficher dans la gallerie du portfolio : //
+/////////////////////////////////////////////////////////////////////////////////////
 
 // Récupération des projets depuis le fichier JSON de l'API
 const responseProjects = await fetch(`http://localhost:5678/api/works`)
 export const projects = await responseProjects.json()
 
-// Générer les projets sur la page web
+// Générer les projets sur la page d'accueil
 export function showProjects(projects) {
   for (let i = 0; i < projects.length; i++) {
     const project = projects[i]
@@ -35,16 +40,17 @@ export function showProjects(projects) {
 
 showProjects(projects)
 
-// Filtrage des projets
+///////////////////////////////////////////////////////////////////////////////////
+// Gestion de la foncitonnalité de filtrage des projets selon leurs catégories : //
+///////////////////////////////////////////////////////////////////////////////////
 
-// Ajout des boutons de façon dynamique via l'API
+// Ajout des boutons de façon dynamique via l'API :
 
 // Récupération des catégories depuis le fichier JSON de l'API
 const responseCategories = await fetch(`http://localhost:5678/api/categories`)
 export const categories = await responseCategories.json()
 
 // Générer les boutons
-
 const filters = document.querySelector('.filters')
 function showFilters(categories) {
   // Bouton "Tous"
@@ -66,7 +72,7 @@ function showFilters(categories) {
 
 showFilters(categories)
 
-// Filtrer les projets
+// Filtrer les projets :
 
 // Changer la couleur des boutons de filtres selon s'ils sont sélectionnés ou non
 function updateButtonColor(e) {

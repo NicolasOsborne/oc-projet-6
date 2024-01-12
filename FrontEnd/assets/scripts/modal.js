@@ -1,16 +1,66 @@
-// Cibler les éléments HTML du DOM :
+////////////////////////////////////////////////////
+// Cibler et récupérer les éléments HTML du DOM : //
+////////////////////////////////////////////////////
+
+// Sur la page index.html :
 // Le bouton "Modifier" pour ouvrir la modale
 const buttonOpenEditor = document.querySelector('.portfolio-edit-button')
 
 // La balise <aside> englobant les modales
 const modalPortfolioEditor = document.querySelector('.modal-edit-portfolio')
 
-// La 1ère fenêtre modale pour visualiser et supprimer les projets
-const modalPortfolioEditorWindow = document.querySelector(
+// Sur la 1ère fenêtre modale (pour visualiser et supprimer les projets) :
+// La 1ère fenêtre
+const modalPortfolioEditorWindowDeleteProject = document.querySelector(
   '.modal-edit-gallery-window'
 )
 
-// La croix pour fermer la fenêtre modale
+// La gallerie qui affiche les projets dans la modale
+const modalImageGallery = document.querySelector('.modal-image-gallery')
+
+// Sur la 2ème fenêtre modale (pour ajouter des projets) :
+// La 2ème fenêtre :
+const modalPortfolioEditorWindowAddProject = document.querySelector(
+  '.modal-add-new-project-window'
+)
+
+// La div pour ajouter et afficher la nouvelle image du projet
+const newProjectImage = document.querySelector('.add-new-image')
+const newProjectImagePlaceholder = document.querySelector(
+  '.add-new-image-placeholder'
+)
+
+// Le bouton "+ Ajouter photo"
+const buttonAddNewProjectImage = document.getElementById('button-upload-image')
+const inputAddNewProjectImage = document.getElementById('input-upload-image')
+
+// Le formulaire de création d'un nouveau projet
+const formNewProject = document.forms.namedItem('add-new-project-form')
+
+// Le champ de saisie pour le titre du projet
+const newProjectTitle = document.getElementById('new-project-title')
+
+// La liste déroulante pour la catégorie du projet
+const newProjectCategory = document.getElementById('new-project-category')
+let categoryOptionNone = document.createElement('option')
+categoryOptionNone.innerHTML = ''
+categoryOptionNone.setAttribute('value', '0')
+newProjectCategory.appendChild(categoryOptionNone)
+
+// Le bouton "Valider" pour envoyer le nouveau projet
+const submitNewProject = document.getElementById('submit-new-project')
+
+//////////////////////////////////////////////////////////////////
+// Ouvrir, fermer et basculer entre les deux fenêtres modales : //
+//////////////////////////////////////////////////////////////////
+
+// Le bouton sur la 1ère fenêtre modale pour ouvrir la 2ème
+const buttonOpenAddProjectWindow = document.getElementById('add-new-project')
+
+// La flèche pour retourner à la 1ère modale
+const previousModalWindow = document.querySelector('.previous-modal')
+
+// La croix pour fermer les fenêtres modales
 const closeEditor1 = document.querySelector('.close-modal1')
 const closeEditor2 = document.querySelector('.close-modal2')
 
@@ -40,18 +90,34 @@ modalPortfolioEditor.addEventListener('click', (e) => {
   ) {
     closeModal(e)
   }
-  if (e.target === modalPortfolioEditorWindow) {
+  if (e.target === modalPortfolioEditorWindowDeleteProject) {
     return
   }
 })
 
-// Comportement de la 1ère fenêtre modale :
+// Ouvrir la 2ème modale depuis la 1ère modale
+buttonOpenAddProjectWindow.addEventListener('click', () => {
+  modalPortfolioEditorWindowDeleteProject.classList.add(
+    'modal-edit-gallery-window-hide'
+  )
+  modalPortfolioEditorWindowAddProject.classList.add(
+    'modal-add-new-project-window-show'
+  )
+})
 
-// Cibler la div du DOM qui affichera les projets
-const modalImageGallery = document.querySelector('.modal-image-gallery')
+// Revenir à la 1ère modale depuis la 2ème modale
+previousModalWindow.addEventListener('click', () => {
+  modalPortfolioEditorWindowAddProject.classList.remove(
+    'modal-add-new-project-window-show'
+  )
+  modalPortfolioEditorWindowDeleteProject.classList.remove(
+    'modal-edit-gallery-window-hide'
+  )
+})
 
-// Cibler le bouton sur la première fenêtre modale pour ouvrir la deuxième
-const buttonOpenAddProjectWindow = document.getElementById('add-new-project')
+//////////////////////////////////////////////
+// Comportement de la 1ère fenêtre modale : //
+//////////////////////////////////////////////
 
 // Gérer l'affichage de la galerie d'images via l'API
 import { projects, showProjects } from './projects.js'
@@ -64,17 +130,20 @@ function showProjectsInModal(projects) {
     modalProjectContainer.classList.add('modal-project-container')
     const modalProjectImage = document.createElement('img')
     modalProjectImage.src = project.imageUrl
+
     // Rattacher l'image au container dans le DOM
     modalProjectContainer.appendChild(modalProjectImage)
 
     // Créer l'icône de suppression
     const containerIconDeleteProject = document.createElement('div')
     containerIconDeleteProject.classList.add('modal-image-delete')
+
     // Attribuer l'ID du projet à l'icône de suppression
     containerIconDeleteProject.setAttribute('id', `${project.id}`)
     const iconDeleteProject = document.createElement('i')
     iconDeleteProject.classList.add('fa-solid')
     iconDeleteProject.classList.add('fa-trash-can')
+
     // Rattacher au DOM
     containerIconDeleteProject.appendChild(iconDeleteProject)
     modalProjectContainer.appendChild(containerIconDeleteProject)
@@ -87,7 +156,6 @@ function showProjectsInModal(projects) {
 showProjectsInModal(projects)
 
 // Suppression d'un projet dans la modale
-
 function deleteProjectFromPortfolio() {
   const deleteProject = document.querySelectorAll('.modal-image-delete')
   deleteProject.forEach((containerIconDeleteProject) => {
@@ -102,9 +170,11 @@ function deleteProjectFromPortfolio() {
         if (response.ok === true) {
           // Vider la gallerie de la modale
           modalImageGallery.innerHTML = ''
+
           // Vider la gallerie de la page index.html
           const projectsGallery = document.querySelector('.gallery')
           projectsGallery.innerHTML = ''
+
           // Afficher les projets restants sans avoir à rafraîchir la page
           refreshProjects(projects)
           console.log('Le projet a bien été supprimé')
@@ -122,102 +192,43 @@ function deleteProjectFromPortfolio() {
   })
 }
 
-// Fonction qui refait un appel à l'API pour récupérer les projets restants après la suppression et met à jour leur affichage dans le portfolio de la page index.html ainsi que dans la galerie photo de la modale
+//////////////////////////////////////////////
+// Comportement de la 2ème fenêtre modale : //
+//////////////////////////////////////////////
 
-async function refreshProjects(projects) {
-  const responseProjects = await fetch(`http://localhost:5678/api/works`)
-  projects = await responseProjects.json()
-  showProjectsInModal(projects)
-  showProjects(projects)
-}
-
-// Basculer entre la première et la deuxième fenêtre modale :
-
-// Cibler la 2ème fenêtre modale
-const modalPortfolioEditorAddProjectWindow = document.querySelector(
-  '.modal-add-new-project-window'
-)
-
-// Cibler la flèche pour retourner à la première modale
-const previousModalWindow = document.querySelector('.previous-modal')
-
-// Ouvrir la 2ème modale depuis la 1ère modale
-buttonOpenAddProjectWindow.addEventListener('click', () => {
-  modalPortfolioEditorWindow.classList.add('modal-edit-gallery-window-hide')
-  modalPortfolioEditorAddProjectWindow.classList.add(
-    'modal-add-new-project-window-show'
-  )
-})
-
-// Revenir à la 1ère modale depuis la 2ème modale
-previousModalWindow.addEventListener('click', () => {
-  modalPortfolioEditorAddProjectWindow.classList.remove(
-    'modal-add-new-project-window-show'
-  )
-  modalPortfolioEditorWindow.classList.remove('modal-edit-gallery-window-hide')
-})
-
-// Comportement de la 2ème fenêtre modale :
-// Cibler les éléments du DOM :
-// La div pour ajouter une nouvelle photo
-const newProjectImage = document.querySelector('.add-new-photo')
-const newProjectImagePlaceholder = document.querySelector(
-  '.add-new-photo-placeholder'
-)
-
-// Le bouton "+ Ajouter photo"
-const buttonAddNewProjectPhoto = document.getElementById('button-upload-photo')
-const inputAddNewProjectPhoto = document.getElementById('input-upload-photo')
-
-// Le formulaire de création d'un nouveau projet
-const formNewProject = document.forms.namedItem('add-new-project-form')
-
-// Le champ de saisie pour le titre du projet
-const newProjectTitle = document.getElementById('new-project-title')
-
-// La liste déroulante pour la catégorie du projet
-const newProjectCategory = document.getElementById('new-project-category')
-let categoryOptionNone = document.createElement('option')
-categoryOptionNone.innerHTML = ''
-categoryOptionNone.setAttribute('value', '0')
-newProjectCategory.appendChild(categoryOptionNone)
-
-// Le bouton "Valider" pour envoyer le nouveau projet
-const submitNewProject = document.getElementById('submit-new-project')
-
-// Le bouton "+ Ajouter photo" appelle l'input file pour ouvrir le gestionnaire de dossiers et choisir une photo à uploader
-buttonAddNewProjectPhoto.addEventListener('click', (e) => {
-  inputAddNewProjectPhoto.click()
+// Le bouton "+ Ajouter photo" appelle l'input file pour ouvrir le gestionnaire de dossiers et choisir une image à uploader
+buttonAddNewProjectImage.addEventListener('click', (e) => {
+  inputAddNewProjectImage.click()
   e.preventDefault()
 })
 
-// Message d'erreur pour l'upload de la photo
+// Message d'erreur pour l'upload de l'image
 const imageUploadError = document.createElement('p')
-imageUploadError.classList.add('photo-accepted-error')
+imageUploadError.classList.add('image-accepted-error')
 newProjectImagePlaceholder.appendChild(imageUploadError)
 
-// Afficher la photo uploadée (et cacher les éléments précédents dans la div "add-new-photo")
-const newProjectPhotoPreview = document.createElement('img')
-inputAddNewProjectPhoto.addEventListener('change', () => {
-  const uploadedPhoto = inputAddNewProjectPhoto.files[0]
+// Afficher l'image uploadée (et cacher les éléments précédents dans la div "add-new-image")
+const newProjectImagePreview = document.createElement('img')
+inputAddNewProjectImage.addEventListener('change', () => {
+  const uploadedImage = inputAddNewProjectImage.files[0]
   // Si l'image est de la bonne taille et au bon format
-  if (verifyImageType(uploadedPhoto) && verifyImageSize(uploadedPhoto)) {
+  if (verifyImageType(uploadedImage) && verifyImageSize(uploadedImage)) {
     // Elle est ajoutée au preview à la place du placeholder
-    newProjectPhotoPreview.classList.add('new-photo-preview')
-    newProjectPhotoPreview.src = URL.createObjectURL(uploadedPhoto)
-    newProjectImagePlaceholder.classList.add('add-new-photo-placeholder-hide')
-    newProjectImage.appendChild(newProjectPhotoPreview)
+    newProjectImagePreview.classList.add('new-image-preview')
+    newProjectImagePreview.src = URL.createObjectURL(uploadedImage)
+    newProjectImagePlaceholder.classList.add('add-new-image-placeholder-hide')
+    newProjectImage.appendChild(newProjectImagePreview)
   } else {
     // Afficher un message d'erreur
-    imageUploadError.classList.add('photo-accepted-error-show')
+    imageUploadError.classList.add('image-accepted-error-show')
   }
 })
 
 // Vérifier que l'image choisie est au bon format (jpg ou png)
 let acceptedImageType = ['image/jpeg', 'image/jpg', 'image/png']
-function verifyImageType(uploadedPhoto) {
+function verifyImageType(uploadedImage) {
   for (let i = 0; i < acceptedImageType.length; i++) {
-    if (uploadedPhoto.type === acceptedImageType[i]) {
+    if (uploadedImage.type === acceptedImageType[i]) {
       return true
     }
   }
@@ -227,8 +238,8 @@ function verifyImageType(uploadedPhoto) {
 }
 
 // Vérifier que l'image choisie est à la bonne taille (4mo maximum)
-function verifyImageSize(uploadedPhoto) {
-  const uploadedImageSize = uploadedPhoto.size / 1024 / 1024
+function verifyImageSize(uploadedImage) {
+  const uploadedImageSize = uploadedImage.size / 1024 / 1024
   if (uploadedImageSize <= 4) {
     return true
   }
@@ -256,7 +267,7 @@ formNewProject.addEventListener('input', () => {
   if (
     newProjectCategory.value != 0 &&
     newProjectTitle.value != '' &&
-    inputAddNewProjectPhoto.value != ''
+    inputAddNewProjectImage.value != ''
   ) {
     submitNewProject.setAttribute('id', 'submit-new-project-complete')
   } else {
@@ -272,21 +283,21 @@ formNewProject.addEventListener('submit', (e) => {
   if (
     newProjectCategory.value != 0 &&
     newProjectTitle.value != '' &&
-    inputAddNewProjectPhoto.value != ''
+    inputAddNewProjectImage.value != ''
   ) {
     let formData = new FormData()
-    formData.append('image', inputAddNewProjectPhoto.files[0])
+    formData.append('image', inputAddNewProjectImage.files[0])
     formData.append('title', newProjectTitle.value)
     formData.append('category', newProjectCategory.value)
     addNewProject(formData)
   }
 
   // Si il n'y a pas d'image uploadée
-  else if (inputAddNewProjectPhoto.value == '') {
+  else if (inputAddNewProjectImage.value == '') {
     newProjectImage.classList.add('input-error')
     addProjectError.classList.add('form-error-message-show')
     addProjectError.innerText =
-      'Veuillez choisir une photo à ajouter pour le nouveau projet'
+      'Veuillez choisir une image à ajouter pour le nouveau projet'
   }
 
   // Si il n'y a pas de titre saisi
@@ -323,16 +334,18 @@ async function addNewProject(formData) {
     if (response.ok === true) {
       // Vider le formulaire d'ajout
       newProjectImagePlaceholder.classList.remove(
-        'add-new-photo-placeholder-hide'
+        'add-new-image-placeholder-hide'
       )
-      newProjectImage.removeChild(newProjectPhotoPreview)
-      imageUploadError.classList.remove('photo-accepted-error-show')
+      newProjectImage.removeChild(newProjectImagePreview)
+      imageUploadError.classList.remove('image-accepted-error-show')
       addProjectError.classList.remove('form-error-message-show')
 
       const clearAllInputErrors = document.querySelectorAll('.input-error')
       for (let k = 0; k < clearAllInputErrors.length; k++) {
         clearAllInputErrors[k].classList.remove('input-error')
       }
+
+      submitNewProject.setAttribute('id', 'submit-new-project')
 
       formNewProject.reset()
 
@@ -345,12 +358,14 @@ async function addNewProject(formData) {
       modalImageGallery.innerHTML = ''
       refreshProjects(projects)
 
+      console.log('Le nouveau projet a bien été ajouté')
+
       // La session de connexion a expirée (Error 401)
     } else if (response.status === 401) {
       // Message d'erreur
       addProjectError.classList.add('form-error-message-show')
       addProjectError.innerText =
-        "Erreur lors de l'ajout du nouveau projet. Veuillez vous reconnecter et réessayer."
+        "Erreur lors de l'ajout du nouveau projet. Veuillez vous reconnecter avant réessayer."
 
       // Une autre erreur innatendue est survenue (Error 500)
     } else {
@@ -360,5 +375,16 @@ async function addNewProject(formData) {
         "Erreur innatendue lors de l'ajout du nouveau projet. Veuillez réessayer."
     }
   })
-  console.log('Le nouveau projet a bien été ajouté')
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// Mettre à jour l'affichage des projets sans avoir à rafraîchir la page : //
+/////////////////////////////////////////////////////////////////////////////
+
+// Fonction qui refait un appel à l'API pour récupérer les projets après la suppression ou l'ajout et met à jour l'affichage dans le portfolio de la page index.html ainsi que dans la galerie photo de la modale
+async function refreshProjects(projects) {
+  const responseProjects = await fetch(`http://localhost:5678/api/works`)
+  projects = await responseProjects.json()
+  showProjectsInModal(projects)
+  showProjects(projects)
 }

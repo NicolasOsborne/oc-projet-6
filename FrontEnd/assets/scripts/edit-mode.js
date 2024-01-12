@@ -1,4 +1,7 @@
-// Cibler les éléments du DOM :
+////////////////////////////////////////////////////
+// Cibler et récupérer les éléments HTML du DOM : //
+////////////////////////////////////////////////////
+
 // Bannière "Mode édition" en haut de la page
 const bannerEditMode = document.querySelector('.edit-mode-banner')
 
@@ -10,6 +13,10 @@ const buttonOpenEditor = document.querySelector('.portfolio-edit-button')
 
 // Boutons de filtres des projets
 const filters = document.querySelector('.filters')
+
+////////////////////////////////////////////////////////
+// Mise à jour de la page index.html en mode éditon : //
+////////////////////////////////////////////////////////
 
 // Fonction de mise à jour de la page d'accueil si l'utilisateur est connecté :
 function updatePageToEditMode() {

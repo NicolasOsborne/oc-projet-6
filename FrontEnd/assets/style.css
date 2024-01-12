@@ -561,7 +561,7 @@ footer nav ul {
   cursor: pointer;
 }
 
-.add-new-photo {
+.add-new-image {
   width: 100%;
   height: 169px;
   border-radius: 3px;
@@ -573,18 +573,18 @@ footer nav ul {
   margin: 0 auto 0 auto;
 }
 
-.add-new-photo-placeholder {
+.add-new-image-placeholder {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-.add-new-photo-placeholder-hide {
+.add-new-image-placeholder-hide {
   display: none;
 }
 
-.add-new-photo i {
+.add-new-image i {
   font-size: 4.75rem;
   color: #b9c5cc;
   margin: 22px auto 10px auto;
@@ -592,7 +592,7 @@ footer nav ul {
   justify-content: center;
 }
 
-#button-upload-photo {
+#button-upload-image {
   width: 11rem;
   padding: 10px 0 10px 0;
   border-radius: 50px;
@@ -609,16 +609,16 @@ footer nav ul {
   cursor: pointer;
 }
 
-#input-upload-photo {
+#input-upload-image {
   display: none;
 }
 
-#input-upload-photo-preview {
+#input-upload-image-preview {
   display: flex;
   height: 100%;
 }
 
-.photo-accepted {
+.image-accepted {
   color: #444;
   font-family: 'Work Sans';
   font-size: 10px;
@@ -627,11 +627,11 @@ footer nav ul {
   margin: 7px auto 19px auto;
 }
 
-.photo-accepted-error {
+.image-accepted-error {
   display: none;
 }
 
-.photo-accepted-error-show {
+.image-accepted-error-show {
   display: block;
   color: red;
   font-family: 'Work Sans';
@@ -642,11 +642,11 @@ footer nav ul {
   margin-bottom: 20px;
 }
 
-.new-photo-preview {
+.new-image-preview {
   height: 100%;
 }
 
-.new-photo-preview-hide {
+.new-image-preview-hide {
   display: none;
 }
 
