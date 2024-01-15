@@ -90,7 +90,10 @@ modalPortfolioEditor.addEventListener('click', (e) => {
   ) {
     closeModal(e)
   }
-  if (e.target === modalPortfolioEditorWindowDeleteProject) {
+  if (
+    e.target === modalPortfolioEditorWindowDeleteProject ||
+    e.target === modalPortfolioEditorWindowAddProject
+  ) {
     return
   }
 })
