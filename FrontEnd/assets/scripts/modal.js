@@ -171,13 +171,6 @@ function deleteProjectFromPortfolio() {
       }).then((response) => {
         // La demande de suppression a réussi
         if (response.ok === true) {
-          // Vider la gallerie de la modale
-          modalImageGallery.innerHTML = ''
-
-          // Vider la gallerie de la page index.html
-          const projectsGallery = document.querySelector('.gallery')
-          projectsGallery.innerHTML = ''
-
           // Afficher les projets restants sans avoir à rafraîchir la page
           refreshProjects(projects)
           console.log('Le projet a bien été supprimé')
@@ -335,7 +328,8 @@ async function addNewProject(formData) {
   }).then((response) => {
     // Réponse de l'API si l'envoi a réussi
     if (response.ok === true) {
-      // Vider le formulaire d'ajout
+      // Vider le formulaire d'ajout :
+      // Supprimer le preview de l'image uploadée - Afficher le bouton pour en uploader une autre - Effacer les éventuels messages d'erreur associés au choix de l'image
       newProjectImagePlaceholder.classList.remove(
         'add-new-image-placeholder-hide'
       )
@@ -343,24 +337,22 @@ async function addNewProject(formData) {
       imageUploadError.classList.remove('image-accepted-error-show')
       addProjectError.classList.remove('form-error-message-show')
 
+      // Effacer les éventuelles bordures rouges d'erreur apparues lors de la saisie précédente
       const clearAllInputErrors = document.querySelectorAll('.input-error')
       for (let k = 0; k < clearAllInputErrors.length; k++) {
         clearAllInputErrors[k].classList.remove('input-error')
       }
-
+      // Redéfinir la couleur du bouton de validation en gris
       submitNewProject.setAttribute('id', 'submit-new-project')
 
+      // Remettre à zéro les champs de saisie du formulaire
       formNewProject.reset()
 
       // La modale se ferme
       modalPortfolioEditor.classList.remove('modal-edit-portfolio-show')
 
       // Le nouveau projet s'affiche dans la galerie (et dans la modale) sans avoir à rafraîchir la page
-      const projectsGallery = document.querySelector('.gallery')
-      projectsGallery.innerHTML = ''
-      modalImageGallery.innerHTML = ''
       refreshProjects(projects)
-
       console.log('Le nouveau projet a bien été ajouté')
 
       // La session de connexion a expirée (Error 401)
@@ -388,6 +380,15 @@ async function addNewProject(formData) {
 async function refreshProjects(projects) {
   const responseProjects = await fetch(`http://localhost:5678/api/works`)
   projects = await responseProjects.json()
-  showProjectsInModal(projects)
+
+  // Vider la gallerie de la page index.html
+  const projectsGallery = document.querySelector('.gallery')
+  projectsGallery.innerHTML = ''
+
+  // Vider la gallerie de la modale
+  modalImageGallery.innerHTML = ''
+
+  // Régénérer le portfolio à la fois sur la page d'accueil que dans la modale (avec les nouveaux projets ou sans ceux qui ont été supprimés)
   showProjects(projects)
+  showProjectsInModal(projects)
 }
